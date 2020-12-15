@@ -8,6 +8,10 @@ use Hash;
 use Auth;
 use Session;
 use App\Admin;
+use Image;
+use Illuminate\Support\Facades\Storage;
+use Redirect,Response;
+use Carbon\Carbon;
 
 class AdminController extends Controller
 {
@@ -103,19 +107,51 @@ class AdminController extends Controller
 
     		$rule = [
     			'name' => 'required',
-    			'mobile' => 'required|numeric'
+    			'mobile' => 'required|numeric',
+    			'image' => 'image|mimes:jpeg,png,jpg,gif,svg,webp'
     		];
 
     		$customMessages = [
     			'name.required' => 'Name is required',
     			'mobile.required' => 'Mobile is required',
     			'mobile.numeric' => 'Valid Mobile is required',
+    			'image.image' => 'Valid Image is required',
     		];
 
     		$this->validate($request, $rule, $customMessages);
 
+    		$image = $request->file('image');
+
+    		if(isset($image)){
+
+            //make unique name for image
+            $currentDate = Carbon::now()->toDateString();
+
+            $imageName = $currentDate.'-'.uniqid().'.'.$image->getClientOriginalExtension();
+
+            //check admin dir is exists
+            if (!Storage::disk('public')->exists('admin_image')) 
+            {
+                Storage::disk('public')->makeDirectory('admin_image');
+            }
+
+            //delete old admin image
+            if (Storage::disk('public')->exists('admin_image/'.Auth::guard('admin')->user()->image))
+            {
+                Storage::disk('public')->delete('admin_image/'.Auth::guard('admin')->user()->image);
+            }
+
+            //resize image for admin and upload
+            $img = Image::make($image)->resize(160,160)->save(storage_path('app/public/admin_image').'/'.$imageName);
+            Storage::disk('public')->put('admin_image/'.$imageName,$img);
+        	}elseif(!empty($data['image'])){
+        		$imageName = $data['image'];
+        	}else{
+        		$imageName = "";
+        	}
+
     		//update ADmin details
-    		Admin::where('email', Auth::guard('admin')->user()->email)->update(['name'=> $data['name'], 'mobile'=>$data['mobile'], ]);
+    		Admin::where('email', Auth::guard('admin')->user()->email)->update(['name'=> $data['name'], 'mobile'=>$data['mobile'], 'image'=> $imageName]);
     		Session::flash('success', 'Admin details updated successfully');
     		return redirect()->back();
 

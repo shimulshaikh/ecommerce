@@ -10,7 +10,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Update Admin Details</h1>
+            <h1 class="m-0">Settings</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -64,7 +64,7 @@
                   </div>
               @endif
 
-              <form role="form" method="post" action="{{route('updateAdminDetails')}}" name="updateAdminDetails" id="updateAdminDetails">
+              <form role="form" method="post" action="{{route('updateAdminDetails')}}" name="updateAdminDetails" id="updateAdminDetails" enctype="multipart/form-data">
                 @csrf
                 <div class="card-body">
                   <div class="form-group">
@@ -85,7 +85,7 @@
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">Image</label>
-                    <input type="file" class="form-control" id="image" name="image">
+                    <input type="file" class="form-control" id="image" name="image" accept = 'image/jpeg , image/jpg, image/gif, image/png, image/svg, image/webp' onchange="previewFile(this)">
                   </div>
                 </div>
                 <!-- /.card-body -->
