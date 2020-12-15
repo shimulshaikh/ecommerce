@@ -12,12 +12,12 @@ class SectionTableSeeder extends Seeder
      */
     public function run()
     {
-        $adminRecords = [
+        $sectionRecords = [
         	[ 'id' => 1,'name' => 'Men','status' => 1 ],
         	[ 'id' => 2,'name' => 'Women','status' => 1 ],
         	[ 'id' => 3,'name' => 'Kids','status' => 1 ],
         ];
 
-        Section::insert($adminRecords);
+        Section::insert($sectionRecords);
     }
 }
