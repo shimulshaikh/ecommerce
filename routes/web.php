@@ -24,12 +24,16 @@ Route::prefix('/admin')->namespace('Admin')->group(function() {
 
 	Route::match(['get','post'],'/', 'AdminController@login')->name('admin');
 	Route::group(['middleware' => ['admin']], function(){
+
 		Route::get('dashboard', 'AdminController@dashboard')->name('dashboard');
 		Route::get('settings', 'AdminController@settings')->name('settings');
 		Route::get('logout', 'AdminController@logout')->name('logout');	
 		Route::post('check-current-pwd', 'AdminController@checkCurrentPwd');
 		Route::post('update-current-pwd', 'AdminController@updateCurrentPwd')->name('updateCurrentPwd');
 		Route::match(['get','post'],'update-admin-details', 'AdminController@updateAdminDetails')->name('updateAdminDetails');	
+
+		Route::resource('/section', SectionController::class); 
+		Route::post('update-section-status', 'SectionController@updateSectionStatus');
 	});
 	
 

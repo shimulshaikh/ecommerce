@@ -49,6 +49,7 @@
             </a>
           </li>
 
+          <!-- setting -->
           <li class="nav-item menu-open">
             @if(Session::get('page')== "settings" || Session::get('page')== "update-admin-details")
               <?php $active = "active"?>
@@ -83,6 +84,47 @@
                 <a href="{{ route('updateAdminDetails') }}" class="nav-link {{ $active }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Update Admin Details</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+
+          <!-- catalogues -->
+          <li class="nav-item menu-open">
+            @if(Session::get('page')== "sections" || Session::get('page')== "categories")
+              <?php $active = "active"?>
+            @else  
+              <?php $active = ""?>
+            @endif
+            <a href="#" class="nav-link {{ $active }}">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                Catalogues
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              @if(Session::get('page')== "sections")
+                <?php $active = "active"?>
+              @else  
+                <?php $active = ""?>
+              @endif
+              <li class="nav-item">
+                <a href="{{ route('section.index') }}" class="nav-link {{ $active }}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Sections</p>
+                </a>
+              </li>
+              @if(Session::get('page')== "categories")
+                <?php $active = "active"?>
+              @else  
+                <?php $active = ""?>
+              @endif
+              <li class="nav-item">
+                <a href="" class="nav-link {{ $active }}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Categories</p>
                 </a>
               </li>
             </ul>
