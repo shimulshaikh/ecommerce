@@ -17,11 +17,15 @@ class AdminController extends Controller
 {
     public function dashboard()
     {
+    	Session::put('page','dashboard');
+
     	return view('admin.admin_dashboard');
     }
 
     public function settings()
     {
+    	Session::put('page','settings');
+
     	$adminDetails = Admin::where('email', Auth::guard('admin')->user()->email)->first();
     	return view('admin.admin_setting')->with(compact('adminDetails'));
     }
@@ -102,6 +106,8 @@ class AdminController extends Controller
 
     public function updateAdminDetails(Request $request)
     {
+    	Session::put('page','update-admin-details');
+    	
     	if ($request->isMethod('post')) {
     		$data = $request->all();
 
@@ -144,10 +150,9 @@ class AdminController extends Controller
             //resize image for admin and upload
             $img = Image::make($image)->resize(160,160)->save(storage_path('app/public/admin_image').'/'.$imageName);
             Storage::disk('public')->put('admin_image/'.$imageName,$img);
-        	}elseif(!empty($data['image'])){
-        		$imageName = $data['image'];
-        	}else{
-        		$imageName = "";
+        	}
+        	else{
+        		$imageName = Auth::guard('admin')->user()->image;
         	}
 
     		//update ADmin details
