@@ -151,7 +151,14 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $sections = Section::get();
+        $categories = Category::where('id',$id)->first();
+        //$categories = json_decode(json_encode($categories),true);
+        // echo "<pre>"; print_r($categories); die;
+        $getCategory = Category::with('subcategories')->where(['parent_id'=>0, 'section_id'=>$categories['section_id']])->get();
+        // $getCategory = json_decode(json_encode($getCategory),true);
+        // echo "<pre>"; print_r($getCategory); die;
+        return view('admin.categories.edit_category')->with(compact('sections','categories','getCategory'));
     }
 
     /**
@@ -163,7 +170,95 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $category = Category::findorFail($id);
+
+        $data = $request->all();
+            //dd($data);
+
+            //validation customize
+            $rule = [
+                'category_name' => 'required',
+                'section_id' => 'required',
+                'url' => 'required',
+                'image' => 'image|mimes:jpeg,png,jpg,gif,svg,webp'
+            ];
+
+            $customMessages = [
+                'category_name.required' => 'Category Name is required',
+                'section_id.required' => 'Section is reduired',
+                'url.required' => 'Category URL is required',
+                'image.image' => 'Valid Image is required',
+            ];
+
+            $this->validate($request, $rule, $customMessages);
+            //end validation customize
+
+            if(empty($data['category_discount'])){
+                $data['category_discount'] = "0.00";   
+            }
+
+            if(empty($data['description'])){
+                $data['description'] = "";   
+            }
+
+            if(empty($data['meta_title'])){
+                $data['meta_title'] = "";   
+            }
+
+            if(empty($data['meta_description'])){
+                $data['meta_description'] = "";   
+            }
+
+            if(empty($data['meta_keywords'])){
+                $data['meta_keywords'] = "";   
+            }
+
+             $image = $request->file('image');
+
+                if(isset($image)){
+
+                    //make unique name for image
+                    $currentDate = Carbon::now()->toDateString();
+
+                    $imageName = $currentDate.'-'.uniqid().'.'.$image->getClientOriginalExtension();
+
+                    //check category image dir is exists
+                    if (!Storage::disk('public')->exists('category_image')) 
+                    {
+                        Storage::disk('public')->makeDirectory('category_image');
+                    }
+
+                    //delete old image
+                    if (Storage::disk('public')->exists('category_image/'.$category->category_image))
+                    {
+                        Storage::disk('public')->delete('category_image/'.$category->category_image);
+                    }
+
+
+                    //resize image for category image and upload
+                    $img = Image::make($image)->resize(400,400)->save(storage_path('app/public/category_image').'/'.$imageName);
+                    Storage::disk('public')->put('category_image/'.$imageName,$img);
+
+                }
+                else{
+                    $imageName = $category->category_image;
+                }
+
+            $category->parent_id = $data['parent_id'];
+            $category->section_id = $data['section_id'];
+            $category->category_name = $data['category_name'];
+            $category->category_image = $imageName;
+            $category->category_discount = $data['category_discount'];
+            $category->description = $data['description'];
+            $category->url = $data['url'];
+            $category->meta_title = $data['meta_title'];
+            $category->meta_description = $data['meta_description'];
+            $category->meta_keywords = $data['meta_keywords'];
+            $category->status = 1;
+            $category->save();
+
+            Session::flash('success', 'Category Updated Successfully');
+            return redirect()->route('category.index');
     }
 
     /**

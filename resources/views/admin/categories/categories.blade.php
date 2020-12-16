@@ -51,6 +51,7 @@
                     <th>Section</th>
                     <th>URL</th>
                     <th>Status</th>
+                    <th>Actions</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -72,6 +73,9 @@
                     	@else
                     		<a class="updateCategoryStatus" id="category-{{ $category->id }}" category_id="{{ $category->id }}" href="javascript:void(0)">Inactive</a>
                     	@endif		
+                    </td>
+                    <td>
+                      <a href="{{route('category.edit', $category->id)}}">Edit</a>
                     </td>
                   </tr>
                   @endforeach  

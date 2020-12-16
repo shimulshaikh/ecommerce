@@ -34,11 +34,12 @@
                   </div>
               @endif
 
-      <form name="categoryForm" id="categoryForm" action="{{route('category.store')}}" method="post" enctype="multipart/form-data">
+      <form name="categoryForm" id="categoryForm" action="{{route('category.update',$categories->id)}}" method="post" enctype="multipart/form-data">
         @csrf
+        @method('PUT')
         <div class="card card-default">
           <div class="card-header">
-            <h3 class="card-title">Add Category</h3>
+            <h3 class="card-title">Update Category</h3>
 
             <div class="card-tools">
               <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
@@ -51,11 +52,11 @@
 
                 <div class="form-group">
                     <label for="category_name">Category Name</label>
-                    <input type="text" name="category_name" class="form-control" id="category_name" placeholder="Enter Category Name" value="{{old('category_name')}}">
+                    <input type="text" name="category_name" class="form-control" id="category_name" placeholder="Enter Category Name" value="{{$categories->category_name}}">
                 </div>
 
                 <div id="appendCategorisLevel">
-                  @include('admin.categories.append_categoris_level')
+                  @include('admin.categories.edit_append_categoris_level')
                 </div>
 
               </div>
@@ -67,7 +68,7 @@
                   <select name="section_id" id="section_id" class="form-control select2" style="width: 100%;">
                     <option value="">Select</option>
                     @foreach($sections as $section)
-                      <option value="{{$section->id}}">{{ $section->name }}</option>
+                      <option value="{{$section->id}}" {{ ($section->id == $categories->section_id) ? 'selected' : '' }}>{{ $section->name }}</option>
                     @endforeach
                   </select>
                 </div>
@@ -95,12 +96,12 @@
 
                 <div class="form-group">
                     <label for="category_discount">Category Discount</label>
-                    <input type="text" name="category_discount" class="form-control" id="category_discount" placeholder="Enter Category Name" value="{{old('category_discount')}}">
+                    <input type="text" name="category_discount" class="form-control" id="category_discount" placeholder="Enter Category Name" value="{{$categories->category_discount}}">
                 </div>
 
                 <div class="form-group">
                     <label for="description">Category Discription</label>
-                    <textarea name="description" id="description" class="form-control" rows="3" placeholder="Enter ...">{{old('description')}}</textarea>
+                    <textarea name="description" id="description" class="form-control" rows="3" placeholder="Enter ...">{{$categories->description}}</textarea>
                 </div>
 
               </div>
@@ -109,12 +110,12 @@
 
                 <div class="form-group">
                     <label for="url">Meta URL</label>
-                    <input type="text" name="url" class="form-control" id="url" placeholder="Enter Category Name" value="{{old('url')}}">
+                    <input type="text" name="url" class="form-control" id="url" placeholder="Enter Category Name" value="{{$categories->url}}">
                 </div>
 
                 <div class="form-group">
                     <label for="meta_title">Meta Title</label>
-                    <textarea name="meta_title" id="meta_title" class="form-control" rows="3" placeholder="Enter ...">{{old('meta_title')}}</textarea>
+                    <textarea name="meta_title" id="meta_title" class="form-control" rows="3" placeholder="Enter ...">{{$categories->meta_title}}</textarea>
                 </div>
 
               </div>
@@ -124,7 +125,7 @@
 
                 <div class="form-group">
                     <label for="meta_description">Meta Discription</label>
-                    <textarea name="meta_description" id="meta_description" class="form-control" rows="3" placeholder="Enter ...">{{old('meta_description')}}</textarea>
+                    <textarea name="meta_description" id="meta_description" class="form-control" rows="3" placeholder="Enter ...">{{$categories->meta_description}}</textarea>
                 </div>
 
               </div>
@@ -133,7 +134,7 @@
 
                 <div class="form-group">
                     <label for="meta_keywords">Meta Keywords</label>
-                    <textarea name="meta_keywords" id="meta_keywords" class="form-control" rows="3" placeholder="Enter ...">{{old('meta_keywords')}}</textarea>
+                    <textarea name="meta_keywords" id="meta_keywords" class="form-control" rows="3" placeholder="Enter ...">{{$categories->meta_keywords}}</textarea>
                 </div>
 
               </div>
@@ -143,7 +144,7 @@
           </div>
           <!-- /.card-body -->
           <div class="card-footer">
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Update</button>
           </div>
         </div>
       </form>
