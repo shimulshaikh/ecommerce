@@ -39,6 +39,7 @@ Route::prefix('/admin')->namespace('Admin')->group(function() {
 		//category router
 		Route::resource('/category', CategoryController::class);
 		Route::post('update-category-status', 'CategoryController@updateCategoryStatus');
+		Route::post('append-categories-level', 'CategoryController@appendCategoriesLevel');
 	});
 	
 
