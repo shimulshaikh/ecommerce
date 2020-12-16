@@ -4,6 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Category;
+use App\Section;
+use Response;
+use Session;
+use Image;
+use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 class CategoryController extends Controller
 {
@@ -14,7 +21,10 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        Session::put('page','categories');
+
+        $categories = Category::get();
+        return view('admin.categories.categories')->with(compact('categories'));
     }
 
     /**
@@ -24,7 +34,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        $sections = Section::get();
+        return view('admin.categories.create')->with(compact('sections'));
     }
 
     /**
@@ -35,7 +46,88 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+            //dd($data);
+
+            //validation customize
+            $rule = [
+                'category_name' => 'required',
+                'section_id' => 'required',
+                'url' => 'required',
+                'image' => 'image|mimes:jpeg,png,jpg,gif,svg,webp'
+            ];
+
+            $customMessages = [
+                'category_name.required' => 'Category Name is required',
+                'section_id.required' => 'Section is reduired',
+                'url.required' => 'Category URL is required',
+                'image.image' => 'Valid Image is required',
+            ];
+
+            $this->validate($request, $rule, $customMessages);
+            //end validation customize
+
+            $category = new Category;
+
+            if(empty($data['category_discount'])){
+                $data['category_discount'] = "0.00";   
+            }
+
+            if(empty($data['description'])){
+                $data['description'] = "";   
+            }
+
+            if(empty($data['meta_title'])){
+                $data['meta_title'] = "";   
+            }
+
+            if(empty($data['meta_description'])){
+                $data['meta_description'] = "";   
+            }
+
+            if(empty($data['meta_keywords'])){
+                $data['meta_keywords'] = "";   
+            }
+
+             $image = $request->file('image');
+
+                if(isset($image)){
+
+                    //make unique name for image
+                    $currentDate = Carbon::now()->toDateString();
+
+                    $imageName = $currentDate.'-'.uniqid().'.'.$image->getClientOriginalExtension();
+
+                    //check category image dir is exists
+                    if (!Storage::disk('public')->exists('category_image')) 
+                    {
+                        Storage::disk('public')->makeDirectory('category_image');
+                    }
+
+                    //resize image for category image and upload
+                    $img = Image::make($image)->resize(400,400)->save(storage_path('app/public/category_image').'/'.$imageName);
+                    Storage::disk('public')->put('category_image/'.$imageName,$img);
+
+                }
+                else{
+                    $imageName = "default.png";
+                }
+
+            $category->parent_id = $data['parent_id'];
+            $category->section_id = $data['section_id'];
+            $category->category_name = $data['category_name'];
+            $category->category_image = $imageName;
+            $category->category_discount = $data['category_discount'];
+            $category->description = $data['description'];
+            $category->url = $data['url'];
+            $category->meta_title = $data['meta_title'];
+            $category->meta_description = $data['meta_description'];
+            $category->meta_keywords = $data['meta_keywords'];
+            $category->status = 1;
+            $category->save();
+
+            Session::flash('success', 'Category Added Successfully');
+            return redirect()->route('category.index');
     }
 
     /**
@@ -82,4 +174,21 @@ class CategoryController extends Controller
     {
         //
     }
+
+    public function updateCategoryStatus(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = $request->all();
+            //echo "<pre>"; print_r($data); die;
+            if($data['status'] == "Active"){
+                $status = 0;
+            }
+            else{
+                $status = 1;   
+            }
+            Category::where('id', $data['category_id'])->update(['status'=>$status]);
+            return response()->json(['status'=>$status, 'category_id'=>$data['category_id']]);
+        }
+    }
+
 }

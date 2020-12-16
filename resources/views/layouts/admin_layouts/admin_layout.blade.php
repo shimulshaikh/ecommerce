@@ -13,6 +13,9 @@
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css')}}">
   <!-- Tempusdominus Bbootstrap 4 -->
   <link rel="stylesheet" href="{{asset('backend/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="{{asset('backend/plugins/select2/css/select2.min.css')}}">
+  
   <!-- iCheck -->
   <link rel="stylesheet" href="{{asset('backend/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
   <!-- JQVMap -->
@@ -71,6 +74,9 @@
     $("#sections").DataTable({
       "responsive": true,
     });
+    $("#categories").DataTable({
+      "responsive": true,
+    });
   });
 </script>
 
@@ -88,6 +94,12 @@
 <script src="{{asset('backend/plugins/daterangepicker/daterangepicker.js')}}"></script>
 <!-- Tempusdominus Bootstrap 4 -->
 <script src="{{asset('backend/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}"></script>
+<!-- Select2 -->
+<script src="{{asset('backend/plugins/select2/js/select2.full.min.js')}}"></script>
+<script type="text/javascript">
+  $('.select2').select2();
+</script>
+
 <!-- Summernote -->
 <script src="{{asset('backend/plugins/summernote/summernote-bs4.min.js')}}"></script>
 <!-- overlayScrollbars -->

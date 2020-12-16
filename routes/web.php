@@ -35,6 +35,10 @@ Route::prefix('/admin')->namespace('Admin')->group(function() {
 		//section router
 		Route::resource('/section', SectionController::class); 
 		Route::post('update-section-status', 'SectionController@updateSectionStatus');
+
+		//category router
+		Route::resource('/category', CategoryController::class);
+		Route::post('update-category-status', 'CategoryController@updateCategoryStatus');
 	});
 	
 
