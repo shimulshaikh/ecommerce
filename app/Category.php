@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-	//For append Categories Level
+	//For start only Categories 
     public function subcategories()
     {
     	return $this->hasMany('App\Category', 'parent_id')->where('status', 1);
@@ -21,4 +21,6 @@ class Category extends Model
     {
     	return $this->belongsTo('App\Category', 'parent_id')->select('id','category_name');
     }
+
+    //For End only Categories 
 }
