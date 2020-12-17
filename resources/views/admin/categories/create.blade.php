@@ -50,7 +50,7 @@
               <div class="col-md-6">
 
                 <div class="form-group">
-                    <label for="category_name">Category Name</label>
+                    <label for="category_name">Category Name *</label>
                     <input type="text" name="category_name" class="form-control" id="category_name" placeholder="Enter Category Name" value="{{old('category_name')}}">
                 </div>
 
@@ -63,7 +63,7 @@
               <div class="col-md-6">
                 
                 <div class="form-group">
-                  <label>Select Section</label>
+                  <label>Select Section *</label>
                   <select name="section_id" id="section_id" class="form-control select2" style="width: 100%;">
                     <option value="">Select</option>
                     @foreach($sections as $section)
@@ -108,7 +108,7 @@
               <div class="col-12 col-sm-6">
 
                 <div class="form-group">
-                    <label for="url">Meta URL</label>
+                    <label for="url">Meta URL *</label>
                     <input type="text" name="url" class="form-control" id="url" placeholder="Enter Category Name" value="{{old('url')}}">
                 </div>
 

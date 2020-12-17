@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Product;
+use App\Section;
 use Session;
 
 class ProductController extends Controller
@@ -35,7 +36,18 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        //Filter Array
+        $fabricArray = array('Cotton','Polyester','Wool');
+        $sleeveArray = array('Full Sleeve','Half Sleeve','Short Sleeve','Sleeveless');
+        $patternArray = array('Checked','Plain','Printed','Self','Solid');
+        $fitArray = array('Regular','Slim');
+        $occasionArray = array('Casual','Formal');
+
+        $categories = Section::with('categories')->get();
+        // $categories = json_decode(json_encode($categories),true);
+        // echo "<pre>"; print_r($categories); die;
+
+        return view('admin.products.create_product')->with(compact('fabricArray','sleeveArray','patternArray','fitArray','occasionArray','categories'));
     }
 
     /**
