@@ -76,6 +76,8 @@
                     </td>
                     <td>
                       <a href="{{route('category.edit', $category->id)}}">Edit</a>
+                      &nbsp;&nbsp;
+                      <a href="{{route('category.destroy', $category->id)}}">Delete</a>
                     </td>
                   </tr>
                   @endforeach  

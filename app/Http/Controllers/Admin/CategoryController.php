@@ -269,7 +269,17 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $category = Category::findorFail($id);
+
+        if (Storage::disk('public')->exists('category_image/'.$category->category_image))
+            {
+                Storage::disk('public')->delete('category_image/'.$category->category_image);
+            }
+
+        $category->delete();    
+
+        Session::flash('success', 'Category Deleted Successfully');
+        return redirect()->route('category.index');
     }
 
     public function updateCategoryStatus(Request $request)
@@ -298,6 +308,21 @@ class CategoryController extends Controller
             // echo "<pre>"; print_r($getCategories); die;
             return view('admin.categories.append_categoris_level')->with(compact('getCategories'));
         }
+    }
+
+    public function deleteCategoryImage($id)
+    {
+        $categoryImage = Category::select('category_image')->where('id',$id)->first();
+
+        if (Storage::disk('public')->exists('category_image/'.$categoryImage->category_image))
+            {
+                Storage::disk('public')->delete('category_image/'.$categoryImage->category_image);
+            }
+
+        Category::where('id',$id)->update(['category_image'=>'default.png']); 
+        
+        Session::flash('success', 'Category Image Successfully Deleted');
+            return redirect()->back();   
     }
 
 }

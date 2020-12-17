@@ -24,6 +24,15 @@
     <section class="content">
       <div class="container-fluid">
 
+              @if(Session::has('success'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                  {{ Session::get('success') }}
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              @endif
+
               @if ($errors->any())
                   <div class="alert alert-danger" style="margin-top: 10px;">
                       <ul>
@@ -84,6 +93,12 @@
                         <span class="input-group-text" id="">Upload</span>
                       </div>
                     </div>
+                    @if($categories->category_image != 'default.png')
+                      <div>
+                        <img style="width: 80px; margin-top: 5px;" src="{{ asset('/storage/category_image') }}/{{ $categories->category_image  }}">
+                        &nbsp; <a href="{{route('deleteCategoryImage',$categories->id)}}">Delete Image</a>
+                      </div>  
+                    @endif
                 </div>
 
               </div>

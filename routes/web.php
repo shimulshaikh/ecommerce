@@ -40,6 +40,8 @@ Route::prefix('/admin')->namespace('Admin')->group(function() {
 		Route::resource('/category', CategoryController::class);
 		Route::post('update-category-status', 'CategoryController@updateCategoryStatus');
 		Route::post('append-categories-level', 'CategoryController@appendCategoriesLevel');
+		Route::get('delete-category-image/{id}', 'CategoryController@deleteCategoryImage')->name('deleteCategoryImage');
+		Route::get('delete-category/{id}', 'CategoryController@destroy')->name('category.destroy');
 	});
 	
 
