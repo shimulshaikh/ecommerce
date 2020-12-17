@@ -77,6 +77,9 @@
     $("#categories").DataTable({
       "responsive": true,
     });
+    $("#products").DataTable({
+      "responsive": true,
+    });
   });
 </script>
 

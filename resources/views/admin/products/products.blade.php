@@ -8,12 +8,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Catalogues</h1>
+            <h1>Products</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Categories</li>
+              <li class="breadcrumb-item active">Products</li>
             </ol>
           </div>
         </div>
@@ -37,47 +37,40 @@
 
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Categories</h3>
-                <a href="{{route('category.create')}}" style="max-width: 150px; float: right; display: inline-block;" class="btn btn-block btn-success">Add Category</a>
+                <h3 class="card-title">Products</h3>
+                <a href="{{route('product.create')}}" style="max-width: 150px; float: right; display: inline-block;" class="btn btn-block btn-success">Add Product</a>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <table id="categories" class="table table-bordered table-striped">
+                <table id="products" class="table table-bordered table-striped">
                   <thead>
                   <tr>
                     <th>Id</th>
-                    <th>Category</th>
-                    <th>Parent Category</th>
-                    <th>Section</th>
-                    <th>URL</th>
+                    <th>Product Name</th>
+                    <th>Product Code</th>
+                    <th>Product Color</th>
                     <th>Status</th>
                     <th>Actions</th>
                   </tr>
                   </thead>
                   <tbody>
-                  @foreach($categories as $category)	
-                    @if(!isset($category->parentCategory->category_name))
-                      <?php $parent_category = "Root"; ?>
-                    @else
-                      <?php $parent_category = $category->parentCategory->category_name; ?>
-                    @endif  
+                  @foreach($products as $product)	 
                   <tr>
-                    <td>{{ $category->id }}</td>
-                    <td>{{ $category->category_name }}</td>
-                    <td>{{ $parent_category }}</td>
-                    <td>{{ $category->section->name }}</td>
-                    <td>{{ $category->url }}</td>
+                    <td>{{ $product->id }}</td>
+                    <td>{{ $product->product_name }}</td>
+                    <td>{{ $product->product_code }}</td>
+                    <td>{{ $product->product_color }}</td>
                     <td>
-                    	@if($category->status == 1) 
-                    		<a class="updateCategoryStatus" id="category-{{ $category->id }}" category_id="{{ $category->id }}" href="javascript:void(0)">Active</a>
+                    	@if($product->status == 1) 
+                    		<a class="updateProductStatus" id="product-{{ $product->id }}" product_id="{{ $product->id }}" href="javascript:void(0)">Active</a>
                     	@else
-                    		<a class="updateCategoryStatus" id="category-{{ $category->id }}" category_id="{{ $category->id }}" href="javascript:void(0)">Inactive</a>
+                    		<a class="updateProductStatus" id="product-{{ $product->id }}" product_id="{{ $product->id }}" href="javascript:void(0)">Inactive</a>
                     	@endif		
                     </td>
                     <td>
-                      <a href="{{route('category.edit', $category->id)}}">Edit</a>
+                      <a href="{{route('product.edit', $product->id)}}">Edit</a>
                       &nbsp;&nbsp;
-                      <a onclick="return confirm('Are You sure want to delete !')" href="{{route('category.destroy', $category->id)}}">Delete</a>
+                      <a onclick="return confirm('Are You sure want to delete !')" href="{{route('product.destroy', $product->id)}}">Delete</a>
                     </td>
                   </tr>
                   @endforeach  

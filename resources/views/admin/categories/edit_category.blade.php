@@ -86,7 +86,7 @@
                     <label for="category_image">Category Image</label>
                     <div class="input-group">
                       <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="category_image" name="image">
+                        <input type="file" class="custom-file-input" id="category_image" name="image" accept = 'image/jpeg , image/jpg, image/gif, image/png, image/svg, image/webp' onchange="previewFile(this)">
                         <label class="custom-file-label" for="category_image">Choose file</label>
                       </div>
                       <div class="input-group-append">
@@ -96,7 +96,7 @@
                     @if($categories->category_image != 'default.png')
                       <div>
                         <img style="width: 80px; margin-top: 5px;" src="{{ asset('/storage/category_image') }}/{{ $categories->category_image  }}">
-                        &nbsp; <a href="{{route('deleteCategoryImage',$categories->id)}}">Delete Image</a>
+                        &nbsp; <a onclick="return confirm('Are You sure want to delete !')" href="{{route('deleteCategoryImage',$categories->id)}}">Delete Image</a>
                       </div>  
                     @endif
                 </div>
@@ -111,7 +111,7 @@
 
                 <div class="form-group">
                     <label for="category_discount">Category Discount</label>
-                    <input type="text" name="category_discount" class="form-control" id="category_discount" placeholder="Enter Category Name" value="{{$categories->category_discount}}">
+                    <input type="number" step="any" min="0" name="category_discount" class="form-control" id="category_discount" placeholder="Enter Category Name" value="{{$categories->category_discount}}">
                 </div>
 
                 <div class="form-group">

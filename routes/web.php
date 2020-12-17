@@ -32,16 +32,20 @@ Route::prefix('/admin')->namespace('Admin')->group(function() {
 		Route::post('update-current-pwd', 'AdminController@updateCurrentPwd')->name('updateCurrentPwd');
 		Route::match(['get','post'],'update-admin-details', 'AdminController@updateAdminDetails')->name('updateAdminDetails');	
 
-		//section router
+		//section route
 		Route::resource('/section', SectionController::class); 
 		Route::post('update-section-status', 'SectionController@updateSectionStatus');
 
-		//category router
+		//category route
 		Route::resource('/category', CategoryController::class);
 		Route::post('update-category-status', 'CategoryController@updateCategoryStatus');
 		Route::post('append-categories-level', 'CategoryController@appendCategoriesLevel');
 		Route::get('delete-category-image/{id}', 'CategoryController@deleteCategoryImage')->name('deleteCategoryImage');
 		Route::get('delete-category/{id}', 'CategoryController@destroy')->name('category.destroy');
+
+		//Product Route
+		Route::resource('/product', ProductController::class); 
+		Route::post('update-product-status', 'ProductController@updateProductStatus');
 	});
 	
 
