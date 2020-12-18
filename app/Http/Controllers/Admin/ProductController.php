@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Product;
 use App\Section;
+use App\Category;
 use Session;
 
 class ProductController extends Controller
@@ -58,7 +59,121 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        //dd($data);
+        //validation customize
+            $rule = [
+                'category_id' => 'required',
+                'product_name' => 'required',
+                'product_code' => 'required',
+                'product_price' => 'required|numeric',
+                'product_color' => 'required',
+                'image' => 'image|mimes:jpeg,png,jpg,gif,svg,webp'
+            ];
+
+            $customMessages = [
+                'category_id.required' => 'Category is required',
+                'product_name.required' => 'Product Name is reduired',
+                'product_code.required' => 'Product Code is reduired',
+                'product_price.required' => 'Product Price is reduired',
+                'product_price.numeric' => 'Valid Product Price is reduired',
+                'product_color.required' => 'Product Color is required',
+                'image.image' => 'Valid Image is required',
+            ];
+
+            $this->validate($request, $rule, $customMessages);
+            //end validation customize
+
+            //save product datails in product table
+            $product = new Product;
+
+            if(empty($data['is_featured'])){
+                $is_featured = "No";
+            }else{
+                $is_featured = "Yes";
+            }
+
+
+            if(empty($data['fabric'])){
+                $data['fabric'] = "";
+            }
+
+            if(empty($data['pattern'])){
+                $data['pattern'] = "";
+            }
+
+            if(empty($data['sleeve'])){
+                $data['sleeve'] = "";
+            }
+
+            if(empty($data['fit'])){
+                $data['fit'] = "";
+            }
+
+            if(empty($data['occasion'])){
+                $data['occasion'] = "";
+            }
+
+            if(empty($data['meta_title'])){
+                $data['meta_title'] = "";
+            }
+
+            if(empty($data['meta_description'])){
+                $data['meta_description'] = "";
+            }
+
+            if(empty($data['meta_keywords'])){
+                $data['meta_keywords'] = "";
+            }
+
+            if(empty($data['description'])){
+                $data['description'] = "";
+            }
+
+            if(empty($data['product_video'])){
+                $data['product_video'] = "";
+            }
+
+            if(empty($data['main_image'])){
+                $data['main_image'] = "";
+            }
+
+            if(empty($data['product_discount'])){
+                $data['product_discount'] = 0;
+            }
+
+            if(empty($data['product_weight'])){
+                $data['product_weight'] = 0;
+            }
+
+            $categoryDetails = Category::find($data['category_id']);
+
+            $product->category_id = $data['category_id'];
+            $product->section_id = $categoryDetails['section_id'];
+            $product->product_name = $data['product_name'];
+            $product->product_code = $data['product_code'];
+            $product->product_color = $data['product_color'];
+            $product->product_price = $data['product_price'];
+            $product->product_discount = $data['product_discount'];
+            $product->product_weight = $data['product_weight'];
+            $product->product_video = $data['product_video'];
+            $product->main_image = $data['main_image'];
+            $product->description = $data['description'];
+            $product->wash_care = $data['wash_care'];
+            $product->fabric = $data['fabric'];
+            $product->pattern = $data['pattern'];
+            $product->sleeve = $data['sleeve'];
+            $product->fit = $data['fit'];
+            $product->occasion = $data['occasion'];
+            $product->meta_title = $data['meta_title'];
+            $product->meta_description = $data['meta_description'];
+            $product->meta_keywords = $data['meta_keywords'];
+            $product->is_featured = $is_featured;
+            $product->status = 1;
+            $product->save();
+
+            Session::flash('success', 'Product Added Successfully');
+            return redirect()->route('product.index');
     }
 
     /**
