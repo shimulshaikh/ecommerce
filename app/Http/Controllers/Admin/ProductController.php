@@ -8,6 +8,10 @@ use App\Product;
 use App\Section;
 use App\Category;
 use Session;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
+use Image;
+use Carbon\Carbon;
 
 class ProductController extends Controller
 {
@@ -134,10 +138,6 @@ class ProductController extends Controller
                 $data['product_video'] = "";
             }
 
-            if(empty($data['main_image'])){
-                $data['main_image'] = "";
-            }
-
             if(empty($data['product_discount'])){
                 $data['product_discount'] = 0;
             }
@@ -145,6 +145,77 @@ class ProductController extends Controller
             if(empty($data['product_weight'])){
                 $data['product_weight'] = 0;
             }
+
+            //upload product Image
+            $image = $request->file('image');
+
+        if(isset($image)){
+
+            //make unique nake for image
+            $currentDate = Carbon::now()->toDateString();
+
+            $imageName = '-'.$currentDate.'-'.uniqid().'.'.$image->getClientOriginalExtension();
+
+            //check product large image dir is exists
+            if (!Storage::disk('public')->exists('product/large')) 
+            {
+                Storage::disk('public')->makeDirectory('product/large');
+            }
+
+            //resize for product large image and upload
+            $img = Image::make($image)->resize(1040,1200)->save(storage_path('app/public/product/large').'/'.$imageName);
+            Storage::disk('public')->put('product/large/'.$imageName,$img);
+
+            //check product medium image dir is exists
+            if (!Storage::disk('public')->exists('product/medium')) 
+            {
+                Storage::disk('public')->makeDirectory('product/medium');
+            }
+
+            //resize for product medium image and upload
+            $medium = Image::make($image)->resize(520,600)->save(storage_path('app/public/product/medium').'/'.$imageName);
+            Storage::disk('public')->put('product/medium/'.$imageName,$medium);
+
+            //check product small image dir is exists
+            if (!Storage::disk('public')->exists('product/small')) 
+            {
+                Storage::disk('public')->makeDirectory('product/small');
+            }
+
+            //resize for product small image and upload
+            $small = Image::make($image)->resize(260,300)->save(storage_path('app/public/product/small').'/'.$imageName);
+            Storage::disk('public')->put('product/small/'.$imageName,$small);
+
+        }
+        else{
+            $imageName = "";
+        }
+
+        //upload product video
+        // $product_video = $request->file('product_video');
+
+        // if(isset($product_video)){
+        //     {
+        //          //make unique nake for product video
+        //     $currentDate = Carbon::now()->toDateString();
+
+        //     $videoName = '-'.$currentDate.'-'.uniqid().'.'.$product_video->getClientOriginalExtension();
+
+        //     //check product video dir is exists
+        //     if (!Storage::disk('public')->exists('product/video')) 
+        //     {
+        //         Storage::disk('public')->makeDirectory('product/video');
+        //     }
+
+        //     //resize for product  video and upload
+        //     $video = Image::make($product_video)->resize(1040,1200)->save(storage_path('app/public/product/video').'/'.$videoName);
+        //     Storage::disk('public')->put('product/video/'.$videoName,$video);
+        //     }
+
+        // }else{
+        //     $videoName = "";
+        // }
+
 
             $categoryDetails = Category::find($data['category_id']);
 
@@ -157,7 +228,7 @@ class ProductController extends Controller
             $product->product_discount = $data['product_discount'];
             $product->product_weight = $data['product_weight'];
             $product->product_video = $data['product_video'];
-            $product->main_image = $data['main_image'];
+            $product->main_image = $imageName;
             $product->description = $data['description'];
             $product->wash_care = $data['wash_care'];
             $product->fabric = $data['fabric'];
@@ -170,6 +241,7 @@ class ProductController extends Controller
             $product->meta_keywords = $data['meta_keywords'];
             $product->is_featured = $is_featured;
             $product->status = 1;
+            dd($product);
             $product->save();
 
             Session::flash('success', 'Product Added Successfully');
