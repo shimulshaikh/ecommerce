@@ -50,6 +50,7 @@
                     <th>Product Code</th>
                     <th>Product Color</th>
                     <th>Category</th>
+                    <th>Product Image</th>
                     <th>Section</th>
                     <th>Status</th>
                     <th>Actions</th>
@@ -63,6 +64,13 @@
                     <td>{{ $product->product_code }}</td>
                     <td>{{ $product->product_color }}</td>
                     <td>{{ $product->category->category_name }}</td>
+                    <td>
+                      @if(!empty($product->main_image))
+                        <img style="width: 90px;" src="{{ asset('/storage/product/small') }}/{{ $product->main_image  }}">
+                      @else
+                        <img style="width: 90px;" src="{{asset('backend/dist/img/No_Image.jpg')}}">
+                      @endif
+                    </td>
                     <td>{{ $product->section->name }}</td>
                     <td>
                     	@if($product->status == 1) 

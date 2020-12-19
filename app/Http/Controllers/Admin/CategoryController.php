@@ -152,7 +152,7 @@ class CategoryController extends Controller
     public function edit($id)
     {
         $sections = Section::get();
-        $categories = Category::where('id',$id)->first();
+        $categories = Category::findorFail($id);
         //$categories = json_decode(json_encode($categories),true);
         // echo "<pre>"; print_r($categories); die;
         $getCategory = Category::with('subcategories')->where(['parent_id'=>0, 'section_id'=>$categories['section_id']])->get();

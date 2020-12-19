@@ -46,6 +46,7 @@ Route::prefix('/admin')->namespace('Admin')->group(function() {
 		//Product Route
 		Route::resource('/product', ProductController::class); 
 		Route::post('update-product-status', 'ProductController@updateProductStatus');
+		Route::get('delete-product/{id}', 'ProductController@destroy')->name('product.destroy');
 	});
 	
 
