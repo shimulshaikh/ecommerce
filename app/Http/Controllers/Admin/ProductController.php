@@ -566,7 +566,7 @@ class ProductController extends Controller
             return redirect()->back();
         }
 
-        $productData = Product::findorFail($id);
+        $productData = Product::select('id','product_name','product_code','product_color','main_image')->with('attributes')->findorFail($id);
         // $productData = json_decode(json_encode($productData),true);
         // echo "<pre>"; print_r($productData); die;
         $title = "Product Attributes";
