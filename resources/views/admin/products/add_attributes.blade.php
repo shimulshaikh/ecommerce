@@ -107,17 +107,19 @@
             <!-- /.row -->
             <!-- /.row -->
           </div>
+        </div>
 
 
           <!-- /.card-body -->
           <div class="card-footer">
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Add Attributes</button>
           </div>
-        </div>
+      </div>
       </form>
         
-
-      <div class="card">
+      <form name="editAttributeForm" id="editAttributeForm" method="post" action="{{route('editAttributes',$productData->id)}}">
+        @csrf
+          <div class="card">
               <div class="card-header">
                 <h3 class="card-title">Added Product Attributs</h3>
               </div>
@@ -136,12 +138,17 @@
                   </thead>
                   <tbody>
                   @foreach($productData['attributes'] as $attribute)  
+                  <input style="display: none;" type="text" name="attrId[]" value="{{ $attribute->id }}">
                   <tr>
                     <td>{{ $attribute->id }}</td>
                     <td>{{ $attribute->size }}</td>
                     <td>{{ $attribute->sku }}</td>
-                    <td>{{ $attribute->price }}</td>
-                    <td>{{ $attribute->stock }}</td>
+                    <td>
+                        <input type="number" min="0" name="price[]" value="{{$attribute->price}}" required="">
+                    </td>
+                    <td>
+                        <input type="number" min="0" name="stock[]" value="{{$attribute->stock}}" required="">
+                    </td>
                     <td></td>
                   </tr>
                   @endforeach  
@@ -149,8 +156,11 @@
                 </table>
               </div>
               <!-- /.card-body -->
-            </div>
-        
+              <div class="card-footer">
+                  <button type="submit" class="btn btn-primary">Update Attributes</button>
+              </div>
+          </div>
+      </form>  
 
       </div><!-- /.container-fluid -->
     </section>
