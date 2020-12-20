@@ -49,6 +49,8 @@ Route::prefix('/admin')->namespace('Admin')->group(function() {
 		Route::get('delete-product/{id}', 'ProductController@destroy')->name('product.destroy');
 		Route::match(['get','post'],'add-attributes/{id}', 'ProductController@addAttributes')->name('addAttributes');
 		Route::post('edit-attributes/{id}','ProductController@editAttributes')->name('editAttributes');
+		Route::post('update-attribute-status', 'ProductController@updateAttributeStatus');
+		Route::get('delete-product-attribute/{id}', 'ProductController@destroyAttribute')->name('destroyAttribute');
 	});
 	
 

@@ -149,7 +149,15 @@
                     <td>
                         <input type="number" min="0" name="stock[]" value="{{$attribute->stock}}" required="">
                     </td>
-                    <td></td>
+                    <td>
+                      @if($attribute->status == 1) 
+                        <a class="updateAttributesStatus" id="attribute-{{ $attribute->id }}" attribute_id="{{ $attribute->id }}" href="javascript:void(0)">Active</a>
+                      @else
+                        <a class="updateAttributesStatus" id="attribute-{{ $attribute->id }}" attribute_id="{{ $attribute->id }}" href="javascript:void(0)">Inactive</a>
+                      @endif
+                      &nbsp;
+                      <a title="Delete" onclick="return confirm('Are You sure want to delete !')" href="{{route('destroyAttribute',$attribute->id)}}"><i class="fas fa-trash"></i></a>
+                    </td>
                   </tr>
                   @endforeach  
                   </tbody>

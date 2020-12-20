@@ -134,4 +134,29 @@ $(document).ready(function(){
     });
 
 
+    //update product attributes status
+	$(".updateAttributesStatus").click(function(){
+		var status = $(this).text();
+		var attribute_id = $(this).attr("attribute_id");
+		// alert(status);
+		// alert(attribute_id);
+		$.ajax({
+			type : 'post',
+			url : '/admin/update-attribute-status',
+			data : {status:status, attribute_id:attribute_id},
+			success:function(resp){
+				// alert(resp['status']);
+				// alert(resp['attribute_id']);
+				if(resp['status']==0){
+					$("#attribute-"+attribute_id).html("Inactive");
+				}else if(resp['status']==1){
+					$("#attribute-"+attribute_id).html("Active");	
+				}
+			},error:function(){
+				alert('Error');
+			}
+		});
+	});
+
+
 });
