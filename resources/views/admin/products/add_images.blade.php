@@ -144,7 +144,7 @@
                         <a class="updateImageStatus" id="images-{{ $images->id }}" images_id="{{ $images->id }}" href="javascript:void(0)">Inactive</a>
                       @endif
                       &nbsp;
-                      <a title="Delete" onclick="return confirm('Are You sure want to delete !')" href="{{route('destroyAttribute',$images->id)}}"><i class="fas fa-trash"></i></a>
+                      <a title="Delete" onclick="return confirm('Are You sure want to delete !')" href="{{route('destroyImage',$images->id)}}"><i class="fas fa-trash"></i></a>
                     </td>
                   </tr>
                   @endforeach  

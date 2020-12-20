@@ -698,4 +698,29 @@ class ProductController extends Controller
         } 
     }
 
+    public function destroyImage($id)
+    {
+        $productimage = ProductsImage::findorFail($id);
+
+        if (Storage::disk('public')->exists('product/large/'.$productimage->image))
+                    {
+                Storage::disk('public')->delete('product/large/'.$productimage->image);
+            }
+
+        if (Storage::disk('public')->exists('product/medium/'.$productimage->image))
+                    {
+                Storage::disk('public')->delete('product/medium/'.$productimage->image);
+            }    
+
+        if (!Storage::disk('public')->exists('product/small')) 
+            {
+                Storage::disk('public')->delete('product/small'.$productimage->image);
+            }
+            
+        $productimage->delete();    
+
+        Session::flash('success', 'Product Image Deleted Successfully');
+        return redirect()->back();    
+    }
+
 }
