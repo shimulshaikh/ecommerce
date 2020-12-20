@@ -158,5 +158,29 @@ $(document).ready(function(){
 		});
 	});
 
+	//update product Images status
+	$(".updateImageStatus").click(function(){
+		var status = $(this).text();
+		var images_id = $(this).attr("images_id");
+		// alert(status);
+		// alert(images_id);
+		$.ajax({
+			type : 'post',
+			url : '/admin/update-images-status',
+			data : {status:status, images_id:images_id},
+			success:function(resp){
+				// alert(resp['status']);
+				// alert(resp['images_id']);
+				if(resp['status']==0){
+					$("#images-"+images_id).html("Inactive");
+				}else if(resp['status']==1){
+					$("#images-"+images_id).html("Active");	
+				}
+			},error:function(){
+				alert('Error');
+			}
+		});
+	});
+
 
 });

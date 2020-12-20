@@ -8,6 +8,7 @@ use App\Product;
 use App\Section;
 use App\Category;
 use App\ProductsAttribute;
+use App\ProductsImage;
 use Session;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -615,6 +616,86 @@ class ProductController extends Controller
 
         Session::flash('success', 'Product Attributes Deleted Successfully');
         return redirect()->back(); 
+    }
+
+    public function addImage(Request $request, $id)
+    {
+        if($request->isMethod('post')){
+            if ($request->hasFile('images')) {
+                $images = $request->file('images');
+                foreach ($images as $key => $image) {
+                    $productImage = new ProductsImage;
+                    // $img = Image::make($image);
+                    // $extension = $image->getClientOriginalExtension();
+
+                    //make unique name for image
+                    $currentDate = Carbon::now()->toDateString();
+
+                    $imageName = $currentDate.'-'.uniqid().'.'.$image->getClientOriginalExtension();
+
+                    
+                     //check product large image dir is exists
+                        if (!Storage::disk('public')->exists('product/large')) 
+                        {
+                            Storage::disk('public')->makeDirectory('product/large');
+                        }
+
+                        //resize for product large image and upload
+                        $img = Image::make($image)->resize(1040,1200)->save(storage_path('app/public/product/large').'/'.$imageName);
+                        Storage::disk('public')->put('product/large/'.$imageName,$img);
+
+                        //check product medium image dir is exists
+                        if (!Storage::disk('public')->exists('product/medium')) 
+                        {
+                            Storage::disk('public')->makeDirectory('product/medium');
+                        }
+
+                        //resize for product medium image and upload
+                        $medium = Image::make($image)->resize(520,600)->save(storage_path('app/public/product/medium').'/'.$imageName);
+                        Storage::disk('public')->put('product/medium/'.$imageName,$medium);
+
+                        //check product small image dir is exists
+                        if (!Storage::disk('public')->exists('product/small')) 
+                        {
+                            Storage::disk('public')->makeDirectory('product/small');
+                        }
+
+                        //resize for product small image and upload
+                        $small = Image::make($image)->resize(260,300)->save(storage_path('app/public/product/small').'/'.$imageName);
+                        Storage::disk('public')->put('product/small/'.$imageName,$small);
+
+                    $productImage->image = $imageName;
+                    $productImage->product_id = $id;
+                    $productImage->save();
+
+                }
+                Session::flash('success', 'Product Imaeges Added Successfully');
+                return redirect()->back();
+            }
+            //echo "<pre>"; print_r($data); die;
+        }
+
+        $productData = Product::select('id','product_name','product_code','product_color','main_image')->with('images')->findorFail($id);
+        // $productData = json_decode(json_encode($productData),true);
+        // echo "<pre>"; print_r($productData); die;
+
+        return view('admin.products.add_images')->with(compact('productData'));
+    }
+
+    public function updateimagesStatus(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = $request->all();
+            //echo "<pre>"; print_r($data); die;
+            if($data['status'] == "Active"){
+                $status = 0;
+            }
+            else{
+                $status = 1;   
+            }
+            ProductsAttribute::where('id', $data['images_id'])->update(['status'=>$status]);
+            return response()->json(['status'=>$status, 'images_id'=>$data['images_id']]);
+        } 
     }
 
 }

@@ -47,10 +47,16 @@ Route::prefix('/admin')->namespace('Admin')->group(function() {
 		Route::resource('/product', ProductController::class); 
 		Route::post('update-product-status', 'ProductController@updateProductStatus');
 		Route::get('delete-product/{id}', 'ProductController@destroy')->name('product.destroy');
+
+		//product Attributes
 		Route::match(['get','post'],'add-attributes/{id}', 'ProductController@addAttributes')->name('addAttributes');
 		Route::post('edit-attributes/{id}','ProductController@editAttributes')->name('editAttributes');
 		Route::post('update-attribute-status', 'ProductController@updateAttributeStatus');
 		Route::get('delete-product-attribute/{id}', 'ProductController@destroyAttribute')->name('destroyAttribute');
+
+		//Product multiple Image
+		Route::match(['get','post'],'add-image/{id}', 'ProductController@addImage')->name('addImage');
+		Route::post('update-images-status', 'ProductController@updateimagesStatus');
 	});
 	
 
