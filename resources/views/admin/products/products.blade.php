@@ -80,9 +80,11 @@
                     	@endif		
                     </td>
                     <td>
-                      <a href="{{route('product.edit', $product->id)}}">Edit</a>
-                      &nbsp;&nbsp;
-                      <a onclick="return confirm('Are You sure want to delete !')" href="{{route('product.destroy', $product->id)}}">Delete</a>
+                      <a title="Add/Edit Attributes" href="{{route('addAttributes', $product->id)}}"><i class="fas fa-plus"></i></a>
+                      &nbsp;
+                      <a title="Edit" href="{{route('product.edit', $product->id)}}"><i class="fas fa-edit"></i></a>
+                      &nbsp;
+                      <a title="Delete" onclick="return confirm('Are You sure want to delete !')" href="{{route('product.destroy', $product->id)}}"><i class="fas fa-trash"></i></a>
                     </td>
                   </tr>
                   @endforeach  

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Product;
 use App\Section;
 use App\Category;
+use App\ProductsAttribute;
 use Session;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -527,4 +528,51 @@ class ProductController extends Controller
             return response()->json(['status'=>$status, 'product_id'=>$data['product_id']]);
         }   
     }
+
+    public function addAttributes(Request $request,$id)
+    {
+        if ($request->isMethod('post')) {
+            $data = $request->all();
+            // echo "<pre>"; print_r($data); die;
+
+            foreach ($data['sku'] as $key => $value) {
+                if(!empty($value)){
+
+                    //SKU already exists check 
+                    $attrCountSku = ProductsAttribute::where('sku',$value)->count();
+                    if($attrCountSku > 0){
+                        Session::flash('error', 'SKU already exists. Please add another SKU');
+                        return redirect()->back();
+                    }
+
+                    //size already exists check 
+                    $attrCountSize = ProductsAttribute::where(['product_id'=>$id,'size'=>$data['size'][$key]])->count();
+                    if($attrCountSize > 0){
+                        Session::flash('error', 'Size already exists. Please add another Size');
+                        return redirect()->back();
+                    }
+
+                    $attribute = new ProductsAttribute;
+                    $attribute->product_id = $id;
+                    $attribute->size = $data['size'][$key];
+                    $attribute->price = $data['price'][$key];
+                    $attribute->stock = $data['stock'][$key]; 
+                    $attribute->sku = $value; 
+                    $attribute->save();    
+                }
+            }
+
+            Session::flash('success', 'Product Attributes has been Added Successfully');
+            return redirect()->back();
+        }
+
+        $productData = Product::findorFail($id);
+        // $productData = json_decode(json_encode($productData),true);
+        // echo "<pre>"; print_r($productData); die;
+        $title = "Product Attributes";
+
+        return view('admin.products.add_attributes')->with(compact('productData','title'));
+
+    }
+
 }

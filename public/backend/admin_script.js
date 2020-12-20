@@ -110,5 +110,28 @@ $(document).ready(function(){
 		});
 	});
 
+	//products attributes Add/Remove script
+	var maxField = 10; //Input fields increment limitation
+    var addButton = $('.add_button'); //Add button selector
+    var wrapper = $('.field_wrapper'); //Input field wrapper
+    var fieldHTML = '<div><div style="height:10px;"></div><input type="text" name="size[]" style="width:100px" value="" placeholder="size"/>&nbsp;<input type="text" name="sku[]" style="width:100px" value=""/ placeholder="sku">&nbsp;<input type="text" name="price[]" style="width:100px" value="" placeholder="price"/>&nbsp;<input type="text" name="stock[]" style="width:100px" value="" placeholder="stock"/><a href="javascript:void(0);" class="remove_button">Delete</a></div>'; //New input field html 
+    var x = 1; //Initial field counter is 1
+    
+    //Once add button is clicked
+    $(addButton).click(function(){
+        //Check maximum number of input fields
+        if(x < maxField){ 
+            x++; //Increment field counter
+            $(wrapper).append(fieldHTML); //Add field html
+        }
+    });
+    
+    //Once remove button is clicked
+    $(wrapper).on('click', '.remove_button', function(e){
+        e.preventDefault();
+        $(this).parent('div').remove(); //Remove field html
+        x--; //Decrement field counter
+    });
+
 
 });

@@ -20,7 +20,7 @@ class CreateProductsAttributesTable extends Migration
             $table->float('price');
             $table->integer('stock');
             $table->string('sku');
-            $table->tinyInteger('status');
+            $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });
     }
