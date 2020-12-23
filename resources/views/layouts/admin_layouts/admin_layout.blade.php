@@ -80,6 +80,9 @@
     $("#products").DataTable({
       "responsive": true,
     });
+    $("#brands").DataTable({
+      "responsive": true,
+    });
   });
 </script>
 

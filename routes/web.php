@@ -23,6 +23,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::prefix('/admin')->namespace('Admin')->group(function() {
 
 	Route::match(['get','post'],'/', 'AdminController@login')->name('admin');
+
 	Route::group(['middleware' => ['admin']], function(){
 
 		Route::get('dashboard', 'AdminController@dashboard')->name('dashboard');
@@ -35,6 +36,11 @@ Route::prefix('/admin')->namespace('Admin')->group(function() {
 		//section route
 		Route::resource('/section', SectionController::class); 
 		Route::post('update-section-status', 'SectionController@updateSectionStatus');
+
+		//Brand route
+		Route::resource('/brand', BrandController::class); 
+		Route::post('update-brand-status', 'BrandController@updateBrandStatus');
+		Route::get('delete-brand/{id}', 'BrandController@destroy')->name('brand.destroy');
 
 		//category route
 		Route::resource('/category', CategoryController::class);

@@ -148,9 +148,9 @@ $(document).ready(function(){
 				// alert(resp['status']);
 				// alert(resp['attribute_id']);
 				if(resp['status']==0){
-					$("#attribute-"+attribute_id).html("Inactive");
+					$("#attribute-"+attribute_id).html("<a class='updateAttributesStatus' href='javascript:void(0)'>Inactive</a>");
 				}else if(resp['status']==1){
-					$("#attribute-"+attribute_id).html("Active");	
+					$("#attribute-"+attribute_id).html("<a class='updateAttributesStatus' href='javascript:void(0)'>Active</a>");	
 				}
 			},error:function(){
 				alert('Error');
@@ -172,9 +172,33 @@ $(document).ready(function(){
 				// alert(resp['status']);
 				// alert(resp['images_id']);
 				if(resp['status']==0){
-					$("#images-"+images_id).html("Inactive");
+					$("#images-"+images_id).html("<a class='updateImageStatus' href='javascript:void(0)'>Inactive</a>");
 				}else if(resp['status']==1){
-					$("#images-"+images_id).html("Active");	
+					$("#images-"+images_id).html("<a class='updateImageStatus' href='javascript:void(0)'>Active</a>");	
+				}
+			},error:function(){
+				alert('Error');
+			}
+		});
+	});
+
+	//update brand status
+	$(".updateBrandStatus").click(function(){
+		var status = $(this).children("i").attr("status");
+		var brand_id = $(this).attr("brand_id");
+		// alert(status);
+		// alert(brand_id);
+		$.ajax({
+			type : 'post',
+			url : '/admin/update-brand-status',
+			data : {status:status, brand_id:brand_id},
+			success:function(resp){
+				// alert(resp['status']);
+				// alert(resp['brand_id']);
+				if(resp['status']==0){
+					$("#brand-"+brand_id).html("<i class='fas fa-toggle-off' aria-hidden='true' status='Inactive'></i>");
+				}else if(resp['status']==1){
+					$("#brand-"+brand_id).html("<i class='fas fa-toggle-on' aria-hidden='true' status='Active'></i>");	
 				}
 			},error:function(){
 				alert('Error');
