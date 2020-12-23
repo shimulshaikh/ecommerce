@@ -50,7 +50,7 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
-                  <label>Select Category</label>
+                  <label>Select Category *</label>
                   <select name="category_id" id="category_id" class="form-control select2" style="width: 100%;">
                     <option value="">Select</option>
                     @foreach($categories as $section)
@@ -66,25 +66,35 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="product_name">Product Name</label>
+                  <label>Select Brand *</label>
+                  <select name="brand_id" id="brand_id" class="form-control select2" style="width: 100%;">
+                    <option value="">Select</option>
+                    @foreach($brands as $brand)
+                      <option value="{{ $brand->id }}" @if(!empty($brand->id) && $brand->id == $productData->brand_id) selected="" @endif>{{ $brand->name }}</option>
+                    @endforeach
+                  </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="product_name">Product Name *</label>
                     <input type="text" name="product_name" class="form-control" id="product_name" placeholder="Enter Product Name" value="{{$productData->product_name}}">
                 </div>
               </div>
 
               <div class="col-md-6">
                 <div class="form-group">
-                    <label for="product_code">Product Code</label>
+                    <label for="product_code">Product Code *</label>
                     <input type="text" name="product_code" class="form-control" id="product_code" placeholder="Enter Product Code" value="{{$productData->product_code}}">
                 </div>
                 <div class="form-group">
-                    <label for="product_color">Product Color</label>
+                    <label for="product_color">Product Color *</label>
                     <input type="text" name="product_color" class="form-control" id="product_color" placeholder="Enter Product Color" value="{{$productData->product_color}}">
                 </div>
               </div>
 
               <div class="col-md-6">
                 <div class="form-group">
-                    <label for="product_price">Product Price</label>
+                    <label for="product_price">Product Price *</label>
                     <input type="number" step="any" min="0" name="product_price" class="form-control" id="product_price" placeholder="Enter Product Price" value="{{$productData->product_price}}">
                 </div>
                 <div class="form-group">

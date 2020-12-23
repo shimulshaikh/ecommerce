@@ -23,7 +23,7 @@ $(document).ready(function(){
 
 	//update section status
 	$(".updateSectionStatus").click(function(){
-		var status = $(this).text();
+		var status = $(this).children("i").attr("status");
 		var section_id = $(this).attr("section_id");
 		// alert(status);
 		// alert(section_id);
@@ -35,9 +35,9 @@ $(document).ready(function(){
 				// alert(resp['status']);
 				// alert(resp['section_id']);
 				if(resp['status']==0){
-					$("#section-"+section_id).html("<a class='updateSectionStatus' href='javascript:void(0)'>Inactive</a>");
+					$("#section-"+section_id).html("<i class='fas fa-toggle-off' aria-hidden='true' status='Inactive'></i>");
 				}else if(resp['status']==1){
-					$("#section-"+section_id).html("<a class='updateSectionStatus' href='javascript:void(0)'>Active</a>");	
+					$("#section-"+section_id).html("<i class='fas fa-toggle-on' aria-hidden='true' status='Active'></i>");	
 				}
 			},error:function(){
 				alert('Error');
@@ -47,7 +47,7 @@ $(document).ready(function(){
 
 	//update category status
 	$(".updateCategoryStatus").click(function(){
-		var status = $(this).text();
+		var status = $(this).children("i").attr("status");
 		var category_id = $(this).attr("category_id");
 		// alert(status);
 		// alert(category_id);
@@ -59,9 +59,9 @@ $(document).ready(function(){
 				// alert(resp['status']);
 				// alert(resp['category_id']);
 				if(resp['status']==0){
-					$("#category-"+category_id).html("<a class='updateCategoryStatus' href='javascript:void(0)'>Inactive</a>");
+					$("#category-"+category_id).html("<i class='fas fa-toggle-off' aria-hidden='true' status='Inactive'></i>");
 				}else if(resp['status']==1){
-					$("#category-"+category_id).html("<a class='updateCategoryStatus' href='javascript:void(0)'>Active</a>");	
+					$("#category-"+category_id).html("<i class='fas fa-toggle-on' aria-hidden='true' status='Active'></i>");	
 				}
 			},error:function(){
 				alert('Error');
@@ -88,7 +88,7 @@ $(document).ready(function(){
 
 	//update product status
 	$(".updateProductStatus").click(function(){
-		var status = $(this).text();
+		var status = $(this).children("i").attr("status");
 		var product_id = $(this).attr("product_id");
 		// alert(status);
 		// alert(product_id);
@@ -100,9 +100,9 @@ $(document).ready(function(){
 				// alert(resp['status']);
 				// alert(resp['product_id']);
 				if(resp['status']==0){
-					$("#product-"+product_id).html("<a class='updateProductStatus' href='javascript:void(0)'>Inactive</a>");
+					$("#product-"+product_id).html("<i class='fas fa-toggle-off' aria-hidden='true' status='Inactive'></i>");
 				}else if(resp['status']==1){
-					$("#product-"+product_id).html("<a class='updateProductStatus' href='javascript:void(0)'>Active</a>");	
+					$("#product-"+product_id).html("<i class='fas fa-toggle-on' aria-hidden='true' status='Active'></i>");	
 				}
 			},error:function(){
 				alert('Error');

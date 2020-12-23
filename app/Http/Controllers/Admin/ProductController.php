@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Product;
 use App\Section;
+use App\Brand;
 use App\Category;
 use App\ProductsAttribute;
 use App\ProductsImage;
@@ -51,10 +52,13 @@ class ProductController extends Controller
         $occasionArray = array('Casual','Formal');
 
         $categories = Section::with('categories')->get();
+
+        //get all brand
+        $brands = Brand::where('status',1)->get();
         // $categories = json_decode(json_encode($categories),true);
         // echo "<pre>"; print_r($categories); die;
 
-        return view('admin.products.create_product')->with(compact('fabricArray','sleeveArray','patternArray','fitArray','occasionArray','categories'));
+        return view('admin.products.create_product')->with(compact('fabricArray','sleeveArray','patternArray','fitArray','occasionArray','categories','brands'));
     }
 
     /**
@@ -70,6 +74,7 @@ class ProductController extends Controller
         //validation customize
             $rule = [
                 'category_id' => 'required',
+                'brand_id' => 'required',
                 'product_name' => 'required',
                 'product_code' => 'required',
                 'product_price' => 'required|numeric',
@@ -79,6 +84,7 @@ class ProductController extends Controller
 
             $customMessages = [
                 'category_id.required' => 'Category is required',
+                'brand_id.required' => 'Brand is required',
                 'product_name.required' => 'Product Name is reduired',
                 'product_code.required' => 'Product Code is reduired',
                 'product_price.required' => 'Product Price is reduired',
@@ -226,6 +232,7 @@ class ProductController extends Controller
             $categoryDetails = Category::find($data['category_id']);
 
             $product->category_id = $data['category_id'];
+            $product->brand_id = $data['brand_id'];
             $product->section_id = $categoryDetails['section_id'];
             $product->product_name = $data['product_name'];
             $product->product_code = $data['product_code'];
@@ -281,11 +288,15 @@ class ProductController extends Controller
         $occasionArray = array('Casual','Formal');
 
         $categories = Section::with('categories')->get();
+
+        //get all brand
+        $brands = Brand::where('status',1)->get();
+
         $productData = Product::findorFail($id);
         // $productData = json_decode(json_encode($productData),true);
         // echo "<pre>"; print_r($productData); die;
 
-        return view('admin.products.edit_product')->with(compact('productData','categories','fabricArray','sleeveArray','patternArray','fitArray','occasionArray'));
+        return view('admin.products.edit_product')->with(compact('productData','categories','fabricArray','sleeveArray','patternArray','fitArray','occasionArray','brands'));
     }
 
     /**
@@ -297,8 +308,32 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-
         $data = $request->all();
+        //dd($data);
+        //validation customize
+            $rule = [
+                'category_id' => 'required',
+                'brand_id' => 'required',
+                'product_name' => 'required',
+                'product_code' => 'required',
+                'product_price' => 'required|numeric',
+                'product_color' => 'required',
+                'image' => 'image|mimes:jpeg,png,jpg,gif,svg,webp'
+            ];
+
+            $customMessages = [
+                'category_id.required' => 'Category is required',
+                'brand_id.required' => 'Brand is required',
+                'product_name.required' => 'Product Name is reduired',
+                'product_code.required' => 'Product Code is reduired',
+                'product_price.required' => 'Product Price is reduired',
+                'product_price.numeric' => 'Valid Product Price is reduired',
+                'product_color.required' => 'Product Color is required',
+                'image.image' => 'Valid Image is required',
+            ];
+
+            $this->validate($request, $rule, $customMessages);
+            //end validation customize
 
         $product = Product::findorFail($id);
 
@@ -455,6 +490,7 @@ class ProductController extends Controller
             // echo "<pre>"; print_r($categoryDetails); die;
 
             $product->category_id = $data['category_id'];
+            $product->brand_id = $data['brand_id'];
             $product->section_id = $categoryDetails['section_id'];
             $product->product_name = $data['product_name'];
             $product->product_code = $data['product_code'];
