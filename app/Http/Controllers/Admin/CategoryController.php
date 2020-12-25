@@ -153,7 +153,7 @@ class CategoryController extends Controller
     {
         $sections = Section::get();
         $categories = Category::findorFail($id);
-        //$categories = json_decode(json_encode($categories),true);
+        // $categories = json_decode(json_encode($categories),true);
         // echo "<pre>"; print_r($categories); die;
         $getCategory = Category::with('subcategories')->where(['parent_id'=>0, 'section_id'=>$categories['section_id']])->get();
         // $getCategory = json_decode(json_encode($getCategory),true);
