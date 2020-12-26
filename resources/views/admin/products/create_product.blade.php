@@ -70,7 +70,7 @@
                   <select name="brand_id" id="brand_id" class="form-control select2" style="width: 100%;">
                     <option value="">Select</option>
                     @foreach($brands as $brand)
-                      <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                      <option value="{{ $brand->id }}" @if(!empty(@old('brand_id')) && $brand->id == @old('brand_id')) selected="" @endif>{{ $brand->name }}</option>
                     @endforeach
                   </select>
                 </div>
