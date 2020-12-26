@@ -22,7 +22,7 @@ $(document).ready(function(){
 	//End Check Admin password is correct or not
 
 	//update section status
-	$(".updateSectionStatus").click(function(){
+	$(document).on("click",".updateSectionStatus",function(){	
 		var status = $(this).children("i").attr("status");
 		var section_id = $(this).attr("section_id");
 		// alert(status);
@@ -46,7 +46,7 @@ $(document).ready(function(){
 	});
 
 	//update category status
-	$(".updateCategoryStatus").click(function(){
+	$(document).on("click",".updateCategoryStatus",function(){	
 		var status = $(this).children("i").attr("status");
 		var category_id = $(this).attr("category_id");
 		// alert(status);
@@ -87,7 +87,7 @@ $(document).ready(function(){
 
 
 	//update product status
-	$(".updateProductStatus").click(function(){
+	$(document).on("click",".updateProductStatus",function(){	
 		var status = $(this).children("i").attr("status");
 		var product_id = $(this).attr("product_id");
 		// alert(status);
@@ -135,7 +135,7 @@ $(document).ready(function(){
 
 
     //update product attributes status
-	$(".updateAttributesStatus").click(function(){
+	$(document).on("click",".updateAttributesStatus",function(){	
 		var status = $(this).text();
 		var attribute_id = $(this).attr("attribute_id");
 		// alert(status);
@@ -159,7 +159,7 @@ $(document).ready(function(){
 	});
 
 	//update product Images status
-	$(".updateImageStatus").click(function(){
+	$(document).on("click",".updateImageStatus",function(){		
 		var status = $(this).text();
 		var images_id = $(this).attr("images_id");
 		// alert(status);
@@ -183,7 +183,7 @@ $(document).ready(function(){
 	});
 
 	//update brand status
-	$(".updateBrandStatus").click(function(){
+	$(document).on("click",".updateBrandStatus",function(){	
 		var status = $(this).children("i").attr("status");
 		var brand_id = $(this).attr("brand_id");
 		// alert(status);
