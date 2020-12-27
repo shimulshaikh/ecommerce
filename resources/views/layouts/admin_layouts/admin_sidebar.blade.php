@@ -11,7 +11,11 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="{{ asset('/storage/admin_image') }}/{{ Auth::guard('admin')->user()->image  }}" class="img-circle elevation-2" alt="User Image">
+          @if(!empty(Auth::guard('admin')->user())) 
+            <img src="{{ asset('/storage/admin_image') }}/{{ Auth::guard('admin')->user()->image  }}" class="img-circle elevation-2" alt="User Image">
+          @else
+            <img style="width: 160px;" src="{{asset('backend/dist/img/profile.jpg')}}">
+          @endif
         </div>
         <div class="info">
           <a href="#" class="d-block">{{ ucwords(Auth::guard('admin')->user()->name) }}</a>
@@ -92,7 +96,7 @@
 
           <!-- catalogues -->
           <li class="nav-item menu-open">
-            @if(Session::get('page')== "sections" || Session::get('page')== "barnds" || Session::get('page')== "categories" || Session::get('page')== "products")
+            @if(Session::get('page')== "sections" || Session::get('page')== "barnds" || Session::get('page')== "categories" || Session::get('page')== "products" || Session::get('page')== "banners")
               <?php $active = "active"?>
             @else  
               <?php $active = ""?>
@@ -147,6 +151,17 @@
                 <a href="{{ route('product.index') }}" class="nav-link {{ $active }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>products</p>
+                </a>
+              </li>
+              @if(Session::get('page')== "banners")
+                <?php $active = "active"?>
+              @else  
+                <?php $active = ""?>
+              @endif
+              <li class="nav-item">
+                <a href="{{ route('banner.index') }}" class="nav-link {{ $active }}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Banners</p>
                 </a>
               </li>
             </ul>

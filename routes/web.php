@@ -64,6 +64,11 @@ Route::prefix('/admin')->namespace('Admin')->group(function() {
 		Route::match(['get','post'],'add-image/{id}', 'ProductController@addImage')->name('addImage');
 		Route::post('update-images-status', 'ProductController@updateimagesStatus');
 		Route::get('delete-product-images/{id}', 'ProductController@destroyImage')->name('destroyImage');
+
+		//Banners route
+		Route::resource('/banner', BannersController::class); 
+		Route::post('update-banner-status', 'BannersController@updateBannerStatus');
+		Route::get('delete-banner/{id}', 'BannersController@destroy')->name('banner.destroy');
 	});
 	
 

@@ -123,7 +123,7 @@
                 </div>
               </div> 
 
-              <div class="col-md-6">
+              <!-- <div class="col-md-6">
                 <div class="form-group">
                     <label for="product_video">Product Video</label>
                     <div class="input-group">
@@ -136,7 +136,7 @@
                       </div>
                     </div>
                 </div>
-              </div> 
+              </div>  -->
 
               <div class="col-12 col-sm-6">
                 <div class="form-group">

@@ -83,6 +83,9 @@
     $("#brands").DataTable({
       "responsive": true,
     });
+    $("#banners").DataTable({
+      "responsive": true,
+    });
   });
 </script>
 
