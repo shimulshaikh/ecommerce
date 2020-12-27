@@ -25,4 +25,14 @@ class Product extends Model
     {
         return $this->hasMany('App\ProductsImage', 'product_id');
     }
+
+    public function scopeIsfeatured($query)
+    {
+        return $query->where('is_featured', 'Yes');
+    }
+
+    public function scopeStatus($query)
+    {
+        return $query->where('status', 1);
+    }
 }

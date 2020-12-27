@@ -14,8 +14,8 @@ class IndexController extends Controller
     	$page_name = "Index";
 
     	//get all Feature Items
-    	$featureItemsCount = Product::where('is_featured','Yes')->count();
-    	$featureItems = Product::where('is_featured','Yes')->get()->toArray();
+    	$featureItemsCount = Product::isfeatured()->status()->count();
+    	$featureItems = Product::isfeatured()->status()->get()->toArray();
     	$featureItemsChunk = array_chunk($featureItems, 4);
     	// echo "<pre>"; print_r($featureItemsChunk); die;
 
@@ -23,6 +23,10 @@ class IndexController extends Controller
     	// $sections = json_decode(json_encode($sections),true);
      	//echo "<pre>"; print_r($sections); die;
 
-    	return view('front.index')->with(compact('page_name','sections','featureItemsChunk'));
+     	//Get new product
+     	$newProducts = Product::status()->orderBy('id','Desc')->limit(6)->get();
+     	// dd($newProducts);
+
+    	return view('front.index')->with(compact('page_name','sections','featureItemsChunk','featureItemsCount','newProducts'));
     }
 }
