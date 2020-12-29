@@ -50,6 +50,7 @@
 
 <script src="{{asset('frontend/themes/js/front.js')}}"></script>
 <script src="{{asset('frontend/themes/js/jquery.lightbox-0.5.js')}}"></script>
+<script src="{{asset('frontend/front_script.js')}}"></script>
 
 </body>
 </html>
