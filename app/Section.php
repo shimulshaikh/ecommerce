@@ -10,4 +10,12 @@ class Section extends Model
 	{
 		return $this->hasMany('App\Category','section_id')->where(['parent_id'=>'Root','status'=>1])->with('subcategories');
 	}
+
+	public static function sections()
+	{
+		$getSections = Section::with('categories')->where('status',1)->get();
+    		$getSections = json_decode(json_encode($getSections),true);
+     	    //echo "<pre>"; print_r($getSections); die;
+     	    return $getSections;
+	}
 }
