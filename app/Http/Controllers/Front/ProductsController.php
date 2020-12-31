@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
+use Illuminate\Pagination\Paginator;
 use Route;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -13,6 +14,8 @@ class ProductsController extends Controller
 {
     public function listing(Request $request)
     {
+        Paginator::useBootstrap();
+        
         if($request->ajax()){
             $data = $request->all();
             // echo "<pre>"; print_r($data); die;
