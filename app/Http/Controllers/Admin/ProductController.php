@@ -45,11 +45,18 @@ class ProductController extends Controller
     public function create()
     {
         //Filter Array
-        $fabricArray = array('Cotton','Polyester','Wool');
-        $sleeveArray = array('Full Sleeve','Half Sleeve','Short Sleeve','Sleeveless');
-        $patternArray = array('Checked','Plain','Printed','Self','Solid');
-        $fitArray = array('Regular','Slim');
-        $occasionArray = array('Casual','Formal');
+        // $fabricArray = array('Cotton','Polyester','Wool');
+        // $sleeveArray = array('Full Sleeve','Half Sleeve','Short Sleeve','Sleeveless');
+        // $patternArray = array('Checked','Plain','Printed','Self','Solid');
+        // $fitArray = array('Regular','Slim');
+        // $occasionArray = array('Casual','Formal');
+        $productFilters = Product::productFilters();
+        //echo "<pre>"; print_r($productFilters); die;
+        $fabricArray = $productFilters['fabricArray'];
+        $sleeveArray = $productFilters['sleeveArray'];
+        $patternArray = $productFilters['patternArray'];
+        $fitArray = $productFilters['fitArray'];
+        $occasionArray = $productFilters['occasionArray'];
 
         $categories = Section::with('categories')->get();
 
@@ -281,11 +288,19 @@ class ProductController extends Controller
     public function edit($id)
     {
         //Filter Array
-        $fabricArray = array('Cotton','Polyester','Wool');
-        $sleeveArray = array('Full Sleeve','Half Sleeve','Short Sleeve','Sleeveless');
-        $patternArray = array('Checked','Plain','Printed','Self','Solid');
-        $fitArray = array('Regular','Slim');
-        $occasionArray = array('Casual','Formal');
+        // $fabricArray = array('Cotton','Polyester','Wool');
+        // $sleeveArray = array('Full Sleeve','Half Sleeve','Short Sleeve','Sleeveless');
+        // $patternArray = array('Checked','Plain','Printed','Self','Solid');
+        // $fitArray = array('Regular','Slim');
+        // $occasionArray = array('Casual','Formal');
+
+        $productFilters = Product::productFilters();
+        //echo "<pre>"; print_r($productFilters); die;
+        $fabricArray = $productFilters['fabricArray'];
+        $sleeveArray = $productFilters['sleeveArray'];
+        $patternArray = $productFilters['patternArray'];
+        $fitArray = $productFilters['fitArray'];
+        $occasionArray = $productFilters['occasionArray'];
 
         $categories = Section::with('categories')->get();
 

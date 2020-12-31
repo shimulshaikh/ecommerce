@@ -20,10 +20,6 @@ class IndexController extends Controller
     	$featureItemsChunk = array_chunk($featureItems, 4);
     	// echo "<pre>"; print_r($featureItemsChunk); die;
 
-    	//$sections = Section::with('categories')->where('status',1)->get();
-    	// $sections = json_decode(json_encode($sections),true);
-     	//echo "<pre>"; print_r($sections); die;
-
      	//Get new product
      	$newProducts = Product::status()->orderBy('id','Desc')->limit(6)->get();
      	// dd($newProducts);

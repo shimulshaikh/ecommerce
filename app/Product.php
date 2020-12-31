@@ -40,4 +40,16 @@ class Product extends Model
     {
         return $query->where('status', 1);
     }
+
+    public static function productFilters()
+    {
+        //product brand Filter
+        $productFilters['fabricArray'] = array('Cotton','Polyester','Wool');
+        $productFilters['sleeveArray'] = array('Full Sleeve','Half Sleeve','Short Sleeve','Sleeveless');
+        $productFilters['patternArray'] = array('Checked','Plain','Printed','Self','Solid');
+        $productFilters['fitArray'] = array('Regular','Slim');
+        $productFilters['occasionArray'] = array('Casual','Formal');
+
+        return $productFilters;
+    }
 }
