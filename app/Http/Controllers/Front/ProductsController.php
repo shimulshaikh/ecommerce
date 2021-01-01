@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Category;
 use App\Product;
+use App\ProductsAttribute;
 use Response;
 
 class ProductsController extends Controller
@@ -15,7 +16,7 @@ class ProductsController extends Controller
     public function listing(Request $request)
     {
         Paginator::useBootstrap();
-        
+
         if($request->ajax()){
             $data = $request->all();
             // echo "<pre>"; print_r($data); die;
@@ -73,7 +74,7 @@ class ProductsController extends Controller
                     $categoryProducts->orderBy('id','Desc');
                 }
 
-                $categoryProducts = $categoryProducts->paginate(3);
+                $categoryProducts = $categoryProducts->paginate(30);
 
                 return view('front.products.ajax_products_listing')->with(compact('categoryDetails','categoryProducts','url'));
             }
@@ -89,7 +90,7 @@ class ProductsController extends Controller
                 $categoryDetails =  Category::catDetails($url);
                 $categoryProducts = Product::with('brand')->whereIn('category_id',$categoryDetails['catIds'])->where('status',1);
                 // echo "<pre>"; print_r($categoryProducts); die;
-                $categoryProducts = $categoryProducts->paginate(3);
+                $categoryProducts = $categoryProducts->paginate(30);
 
                 //product brand Filter
                 $productFilters = Product::productFilters();
@@ -112,4 +113,25 @@ class ProductsController extends Controller
 
     	
     }
+
+
+    public function details($id)
+    {
+        $productDetails = Product::with('category','brand','attributes','images')->find($id)->toArray();
+        //dd($productDetails);
+        $totalStock = ProductsAttribute::where('product_id',$id)->sum('stock');
+
+        return view('front.products.product_details')->with(compact('productDetails','totalStock'));
+    }
+
+    public function getProductPrice(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = $request->all();
+            // echo "<pre>"; print_r($data); die;
+            $getProductPrice = ProductsAttribute::where(['product_id'=>$data['product_id'],'size'=>$data['size']])->first();
+            return $getProductPrice->price;
+        }
+    }
+
 }

@@ -1,4 +1,12 @@
 $(document).ready(function(){
+
+	$.ajaxSetup({
+	    headers: {
+	        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+	   	 }
+	});
+
+
 	/*$("#sort").on('change',function(){
 		this.form.submit();
 	}); */
@@ -125,5 +133,26 @@ $(document).ready(function(){
 		});
 		return filer;
 	}
+
+	//size get product price
+	$("#getPrice").change(function(){
+		var size = $(this).val();
+		if (size=="") {
+			alert("Please select Size");
+			return false;
+		}
+		var product_id = $(this).attr('product-id');
+		$.ajax({
+			url:'/get-product-price',
+			data: {size:size,product_id:product_id},
+			type: 'post',
+			success:function(resp){
+				//alert(resp);
+				$(".getAttrPrice").html("Rs. "+resp);
+			},error:function(){
+				alert("Error");
+			}
+		});
+	});
 
 });

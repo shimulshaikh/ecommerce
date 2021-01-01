@@ -80,14 +80,18 @@ Route::prefix('/admin')->namespace('Admin')->group(function() {
 Route::namespace('Front')->group(function(){
 	//home router
 	Route::get('/', 'IndexController@index');
+	
 	//Listing/categories router
 	$catUrl = Category::select('url')->where('status',1)->get()->pluck('url')->toArray();
 	// Route::get('/{url}', 'ProductsController@listing');
+
+	//Get category url
 	foreach ($catUrl as $url) {
 		Route::get('/'.$url, 'ProductsController@listing');
 	}
-
-	Route::get('/contact-us',function(){
-		echo "test"; die;
-	});
+	//Product details route
+	Route::get('/product/{id}','ProductsController@details');
+	//get product Attribute price
+	Route::post('/get-product-price','ProductsController@getProductPrice');
+	
 });
