@@ -3,7 +3,7 @@
 						@foreach($categoryProducts as $product)
 						<li class="span3">
 							<div class="thumbnail">
-								<a href="product_details.html">
+								<a href="{{ url('/product/'.$product['id']) }}">
 									@if(!empty($product['main_image']))	
 										<img src="{{ asset('/storage/product/small') }}/{{ $product['main_image'] }}" alt="">
 									@else

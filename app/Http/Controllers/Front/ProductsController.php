@@ -118,10 +118,11 @@ class ProductsController extends Controller
     public function details($id)
     {
         $productDetails = Product::with('category','brand','attributes','images')->find($id)->toArray();
-        //dd($productDetails);
+        // dd($productDetails);
         $totalStock = ProductsAttribute::where('product_id',$id)->sum('stock');
-
-        return view('front.products.product_details')->with(compact('productDetails','totalStock'));
+        $relatedProducts = Product::where('category_id',$productDetails['category']['id'])->where('id','!=',$id)->limit(2)->inRandomOrder()->get()->toArray();
+         // dd($relatedProducts);
+        return view('front.products.product_details')->with(compact('productDetails','totalStock','relatedProducts'));
     }
 
     public function getProductPrice(Request $request)

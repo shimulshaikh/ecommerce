@@ -15,7 +15,7 @@
 										<li class="span3">
 											<div class="thumbnail">
 												<i class="tag"></i>
-												<a href="product_details.html">
+												<a href="{{ url('/product/'.$item['id']) }}">
 												@if(!empty($item['main_image']))	
 													<img src="{{ asset('/storage/product/small') }}/{{ $item['main_image'] }}" alt="">
 												@else
@@ -43,7 +43,7 @@
 					@foreach($newProducts as $product)
 					<li class="span3">
 						<div class="thumbnail">
-							<a  href="product_details.html">
+							<a  href="{{ url('/product/'.$product['id']) }}">
 								@if(!empty($product->main_image))	
 									<img style="width: 160px;" src="{{ asset('/storage/product/small') }}/{{ $product->main_image }}" alt="">
 								@else
