@@ -1,6 +1,4 @@
-<?php 
-	use App\Cart;
-?>
+
 
 @extends('layouts.front_layouts.front_layout')
 @section('content')
@@ -42,59 +40,28 @@
 			</form>
 		  </td>
 		  </tr>
-	</tbody></table>		
-			
-	<table class="table table-bordered">
-              <thead>
-                <tr>
-                  <th>Product</th>
-                  <th colspan="2">Description</th>
-                  <th>Quantity/Update</th>
-				  <th>Unit Price</th>
-                  <th>Discount</th>
-                  <th>Sub Total</th>
-				</tr>
-              </thead>
-              <tbody>
-              	<?php $total_price=0;?>
-              	@foreach($userCartItems as $item)
-              	<?php $attrPrice=Cart::getProductAttributes($item['product_id'],$item['size']) ?>
-                <tr>
-                  <td> <img width="60" src="{{ asset('/storage/product/large') }}/{{ $item['product']['main_image']  }}" alt="">
-                  </td>
-                  <td  colspan="2">{{$item['product']['product_name']}}({{$item['product']['product_code']}})<br>
-                  	Color : {{$item['product']['product_color']}}<br>
-                  	Size : {{$item['size']}}
-                  </td>
-				  <td>
-					<div class="input-append">
-						<input class="span1" style="max-width:34px" value="{{$item['quantity']}}" id="appendedInputButtons" size="16" type="text">
-						<button class="btn" type="button"><i class="icon-minus"></i></button><button class="btn" type="button"><i class="icon-plus"></i></button><button class="btn btn-danger" type="button"><i class="icon-remove icon-white"></i></button>				
-					</div>
-				  </td>
-                  <td>Rs.{{$attrPrice}}</td>
-                  <td>Rs.0.00</td>
-                  <td>Rs.{{$attrPrice*$item['quantity']}}</td>
-                </tr>
-                <?php $total_price=$total_price+ ($attrPrice*$item['quantity'])?>
-                @endforeach
-				
-                <tr>
-                  <td colspan="6" style="text-align:right">Total Price:	</td>
-                  <td> Rs.{{$total_price}}</td>
-                </tr>
-				 <tr>
-                  <td colspan="6" style="text-align:right">Total Discount:	</td>
-                  <td> Rs.0.00</td>
-                </tr>
-                 <tr>
-                </tr>
-				 <tr>
-                  <td colspan="6" style="text-align:right"><strong>GRAND TOTAL (Rs.{{$total_price}} - Rs.0) =</strong></td>
-                  <td class="label label-important" style="display:block"> <strong> Rs.{{$total_price}} </strong></td>
-                </tr>
-				</tbody>
-            </table>
+	</tbody></table>	
+
+					@if(Session::has('error'))
+				      <div class="alert alert-danger" role="alert">
+				        {{ Session::get('error') }}
+				        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				          <span aria-hidden="true">&times;</span>
+				        </button>
+				      </div>
+				    @endif
+				    @if(Session::has('success'))
+		                <div class="alert alert-success" role="alert">
+		                  {{ Session::get('success') }}
+		                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		                    <span aria-hidden="true">&times;</span>
+		                  </button>
+		                </div>
+		            @endif	
+	
+	<div id="AppendCartItems">		
+		@include('front.products.cart_items')
+	</div>
 		
 		
             <table class="table table-bordered">
@@ -116,32 +83,7 @@
 			</tbody>
 			</table>
 			
-			<!-- <table class="table table-bordered">
-			 <tr><th>ESTIMATE YOUR SHIPPING </th></tr>
-			 <tr> 
-			 <td>
-				<form class="form-horizontal">
-				  <div class="control-group">
-					<label class="control-label" for="inputCountry">Country </label>
-					<div class="controls">
-					  <input type="text" id="inputCountry" placeholder="Country">
-					</div>
-				  </div>
-				  <div class="control-group">
-					<label class="control-label" for="inputPost">Post Code/ Zipcode </label>
-					<div class="controls">
-					  <input type="text" id="inputPost" placeholder="Postcode">
-					</div>
-				  </div>
-				  <div class="control-group">
-					<div class="controls">
-					  <button type="submit" class="btn">ESTIMATE </button>
-					</div>
-				  </div>
-				</form>				  
-			  </td>
-			  </tr>
-            </table> -->		
+					
 	<a href="products.html" class="btn btn-large"><i class="icon-arrow-left"></i> Continue Shopping </a>
 	<a href="login.html" class="btn btn-large pull-right">Next <i class="icon-arrow-right"></i></a>
 	

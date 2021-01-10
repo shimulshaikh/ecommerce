@@ -1,5 +1,5 @@
+<?php use App\Product; ?>
 @extends('layouts.front_layouts.front_layout')
-
 @section('content')
 
 		<div class="span9">
@@ -14,6 +14,7 @@
 										@foreach($featureItem as $item)	
 										<li class="span3">
 											<div class="thumbnail">
+												<?php $discountPrice=Product::getDiscountPrice($item['id'])?>
 												<i class="tag"></i>
 												<a href="{{ url('/product/'.$item['id']) }}">
 												@if(!empty($item['main_image']))	
@@ -24,7 +25,14 @@
                   								</a>
 												<div class="caption">
 													<h5>{{$item['product_name']}}</h5>
-													<h4><a class="btn" href="product_details.html">VIEW</a> <span class="pull-right">Rs.{{$item['product_price']}}</span></h4>
+													<h4><a class="btn" href="{{ url('/product/'.$item['id']) }}">VIEW</a> <span class="pull-right" style="font-size: 12px;">
+														@if($discountPrice>0)	
+															<del>Rs.{{$item['product_price']}}</del>
+															<font color="red">Rs.{{$discountPrice}}</font>
+														@else
+															Rs.{{$item['product_price']}}
+														@endif	
+													</span></h4>
 												</div>
 											</div>
 										</li>
@@ -43,6 +51,7 @@
 					@foreach($newProducts as $product)
 					<li class="span3">
 						<div class="thumbnail">
+							<?php $discountPrice=Product::getDiscountPrice($product['id'])?>
 							<a  href="{{ url('/product/'.$product['id']) }}">
 								@if(!empty($product->main_image))	
 									<img style="width: 160px;" src="{{ asset('/storage/product/small') }}/{{ $product->main_image }}" alt="">
@@ -50,13 +59,19 @@
 							        <img style="width: 160px;" src="{{asset('backend/dist/img/No_Image.jpg')}}">
 							    @endif
 							</a>
-							<div class="caption">
+							<div class="caption" style="height: 180px;">
 								<h5>{{$product->product_name}}</h5>
 								<p>
 									{{$product->product_code}}-{{$product->product_color}}
 								</p>
 								
-								<h4 style="text-align:center"><a class="btn" href="product_details.html"> <i class="icon-zoom-in"></i></a> <a class="btn" href="#">Add to <i class="icon-shopping-cart"></i></a> <a class="btn btn-primary" href="#">Rs.{{$product->product_price}}</a></h4>
+								<h4 style="text-align:center"> <a class="btn" href="#">Add to <i class="icon-shopping-cart"></i></a> <a class="btn btn-primary" href="#">@if($discountPrice>0)	
+									<del>Rs.{{$product['product_price']}}</del>
+									<font color="yellow">Rs.{{$discountPrice}}</font>
+								@else
+									Rs.{{$product['product_price']}}
+								@endif	
+								</a></h4>
 							</div>
 						</div>
 					</li>

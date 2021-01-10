@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Front;
 
-use Illuminate\Pagination\Paginator;
 use Route;
+use View;
+use Illuminate\Pagination\Paginator;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Category;
@@ -135,8 +136,12 @@ class ProductsController extends Controller
         if ($request->ajax()) {
             $data = $request->all();
             // echo "<pre>"; print_r($data); die;
-            $getProductPrice = ProductsAttribute::where(['product_id'=>$data['product_id'],'size'=>$data['size']])->first();
-            return $getProductPrice->price;
+            // $getProductPrice = ProductsAttribute::where(['product_id'=>$data['product_id'],'size'=>$data['size']])->first();
+
+            $getDiscountAttriPrice = Product::getDiscountAttriPrice($data['product_id'],$data['size']);
+
+            //return $getProductPrice->price;
+            return $getDiscountAttriPrice;
         }
     }
 
@@ -188,7 +193,7 @@ class ProductsController extends Controller
             $cart->save();
 
             Session::flash('success', 'Product has been added in cart');
-            return redirect()->back();
+            return redirect('cart');
         }
     }
 
@@ -197,6 +202,21 @@ class ProductsController extends Controller
         $userCartItems = Cart::userCartItems();
         // echo "<pre>"; print_r($userCartItems); die;
         return view('front.products.cart')->with(compact('userCartItems'));
+    }
+
+    public function updateCartItemQty(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = $request->all();
+            //echo "<pre>"; print_r($data); die;
+            //$cartDetails = Cart::find($date['cartid']);
+            Cart::where('id',$data['cartid'])->update(['quantity'=>$data['qty']]);
+
+            $userCartItems = Cart::userCartItems();
+
+            return response()->json(['view'=>(String)View::make('front.products.cart')->with(compact('userCartItems'))]);
+            // return response()->json(['status'=>$status, 'attribute_id'=>$data['attribute_id']]);
+        }
     }
 
 }

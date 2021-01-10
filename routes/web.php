@@ -99,5 +99,8 @@ Route::namespace('Front')->group(function(){
 
 	//shopping cart Route
 	Route::get('/cart','ProductsController@cart');	
+
+	//Update cart Item Quentity
+	Route::post('/update-cart-item-qty','ProductsController@updateCartItemQty');	
 	
 });

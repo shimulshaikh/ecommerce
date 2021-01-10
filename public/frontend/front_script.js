@@ -147,12 +147,55 @@ $(document).ready(function(){
 			data: {size:size,product_id:product_id},
 			type: 'post',
 			success:function(resp){
-				//alert(resp);
-				$(".getAttrPrice").html("Rs. "+resp);
+				// alert(resp['product_price']);
+				// alert(resp['discount_price']);
+				// return false;
+				if(resp['discount_price']>0){
+					$(".getAttrPrice").html("<del>Rs. "+resp['product_price']+"</del> Rs."+resp['discount_price']);
+				}else{
+					$(".getAttrPrice").html("Rs. "+resp['product_price']);
+				}
 			},error:function(){
 				alert("Error");
 			}
 		});
 	});
+
+	//Update cart Items
+	$(document).on('click','.btnItemUpdate',function(){
+		if($(this).hasClass('qtyMinus')){
+			var quantity = $(this).prev().val();
+			//alert(quantity);
+			//If qtyMinus button gets clicked by User
+			if (quantity<=1) {
+				alert("Item quantity must be 1 or greater!");
+				return false;
+			}else{
+				new_qty = parseInt(quantity)-1;
+			}
+		}
+		if($(this).hasClass('qtyPlus')){
+			//If qtyPlus button gets clicked by User
+			var quantity = $(this).prev().prev().val();
+			new_qty = parseInt(quantity)+1;
+		}
+	 	//alert(new_qty);
+		var cartid = $(this).data('cartid');
+		//alert(cartid);
+		$.ajax({
+			data:{"cartid":cartid,"qty":new_qty},
+			url:'/update-cart-item-qty',
+			type:'post',
+			success:function(resp){
+				//alert(resp);
+				$("#AppendCartItems").html(resp.view);
+			},error:function(){
+				alert("Error");
+			}
+		});
+	});
+
+
+
 
 });

@@ -52,4 +52,46 @@ class Product extends Model
 
         return $productFilters;
     }
+
+    public static function getDiscountPrice($product_id)
+    {
+        $proDetails = Product::select('product_price','product_discount','category_id')->where('id',$product_id)->first()->toArray();
+        // echo "<pre>"; print_r($proDetails); die;
+        $catDetails = Category::select('category_discount')->where('id',$proDetails['category_id'])->first()->toArray();
+
+        if($proDetails['product_discount']>0){
+            //if product discount is added from admin panel
+            $discount_price = $proDetails['product_price'] - ($proDetails['product_price']*$proDetails['product_discount']/100);
+        }else if($catDetails['category_discount']>0){
+            //if product discount is not added and category discount is added from admin panel
+            $discount_price = $proDetails['product_price'] - ($proDetails['product_price']*$catDetails['category_discount']/100);
+        }else{
+            $discount_price = 0;
+        }
+        return $discount_price;
+    }
+
+    public static function getDiscountAttriPrice($product_id,$size)
+    {
+        $proAttriPrice = ProductsAttribute::where(['product_id'=>$product_id,'size'=>$size])->first()->toArray();
+
+        $proDetails = Product::select('product_discount','category_id')->where('id',$product_id)->first()->toArray();
+        // echo "<pre>"; print_r($proDetails); die;
+        $catDetails = Category::select('category_discount')->where('id',$proDetails['category_id'])->first()->toArray();
+
+        if($proDetails['product_discount']>0){
+            //if product discount is added from admin panel
+            $discount_price = $proAttriPrice['price'] - ($proAttriPrice['price']*$proDetails['product_discount']/100);
+            $discount = $proAttriPrice['price'] - $discount_price;
+        }else if($catDetails['category_discount']>0){
+            //if product discount is not added and category discount is added from admin panel
+            $discount_price = $proAttriPrice['price'] - ($proAttriPrice['price']*$catDetails['category_discount']/100);
+            $discount = $proAttriPrice['price'] - $discount_price;
+        }else{
+            $discount_price = $proAttriPrice['price'];
+            $discount = 0;
+        }
+
+        return array('product_price'=>$proAttriPrice['price'], 'discount_price'=>$discount_price,'discount'=>$discount);
+    }
 }
