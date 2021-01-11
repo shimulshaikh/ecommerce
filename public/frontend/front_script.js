@@ -199,6 +199,25 @@ $(document).ready(function(){
 	});
 
 
+	//Delete cart Items
+	$(document).on('click','.btnItemDelete',function(){
+		var cartid = $(this).data('cartid');
+		var result = confirm("Want to delete this Cart Item");
+		// alert(cartid); return flase;
+		if (result) {
+			$.ajax({
+				data:{"cartid":cartid},
+				url:'/delete-cart-item',
+				type:'post',
+				success:function(resp){
+					$("#AppendCartItems").html(resp.view);
+				},error:function(){
+					alert("Error");
+				}
+			});
+		}
+	});
+
 
 
 });
