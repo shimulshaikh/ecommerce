@@ -209,13 +209,47 @@ class ProductsController extends Controller
         if ($request->ajax()) {
             $data = $request->all();
             //echo "<pre>"; print_r($data); die;
-            //$cartDetails = Cart::find($date['cartid']);
+
+            //get cart details for stock check
+            $cartDetails = Cart::find($data['cartid']);
+
+            //Get Available product stock
+            $availableStock = ProductsAttribute::select('stock')->where(['product_id'=>$cartDetails['product_id'], 'size'=>$cartDetails['size']])->first()->toArray();
+
+            // echo "Demanded stock: ".$data['qty'];
+            // echo "<br>";
+            // echo "Available stock: ".$availableStock['stock']; die;
+
+            //check stock is available or not
+            if ($data['qty']>$availableStock['stock']) {
+                $userCartItems = Cart::userCartItems();
+                return response()->json([
+                'status'=>false,
+                'message'=>'Product Stock is not available',
+                'view'=>(String)View::make('front.products.cart_items')->with(compact('userCartItems'))
+                ]);
+            }
+
+            //check size is available
+            $availableSize = ProductsAttribute::where(['product_id'=>$cartDetails['product_id'], 'size'=>$cartDetails['size'],'status'=>1])->count();
+
+            if ($availableSize==0) {
+                $userCartItems = Cart::userCartItems();
+                return response()->json([
+                'status'=>false,
+                'message'=>'Product Size is not available',
+                'view'=>(String)View::make('front.products.cart_items')->with(compact('userCartItems'))
+                ]);
+            }
+
             Cart::where('id',$data['cartid'])->update(['quantity'=>$data['qty']]);
 
             $userCartItems = Cart::userCartItems();
 
-            return response()->json(['view'=>(String)View::make('front.products.cart')->with(compact('userCartItems'))]);
-            // return response()->json(['status'=>$status, 'attribute_id'=>$data['attribute_id']]);
+            return response()->json([
+                'status'=>true,
+                'view'=>(String)View::make('front.products.cart_items')->with(compact('userCartItems'))
+            ]);
         }
     }
 
