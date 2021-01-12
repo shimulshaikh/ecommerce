@@ -91,6 +91,7 @@ Route::namespace('Front')->group(function(){
 	}
 	//Product details route
 	Route::get('/product/{id}','ProductsController@details');
+
 	//get product Attribute price
 	Route::post('/get-product-price','ProductsController@getProductPrice');
 
@@ -104,6 +105,20 @@ Route::namespace('Front')->group(function(){
 	Route::post('/update-cart-item-qty','ProductsController@updateCartItemQty');
 
 	//Delete cart Item
-	Route::post('/delete-cart-item','ProductsController@deleteCartItem');	
+	Route::post('/delete-cart-item','ProductsController@deleteCartItem');
+
+	//Login/Register page
+	Route::get('/login-register','UsersController@loginRegister');	
+
+	//Login user
+	Route::post('/login','UsersController@loginUser');	
+
+	//Register user
+	Route::post('/register','UsersController@registerUser')->name('register');
+
+	//User logout
+	Route::get('/logout','UsersController@logoutUser')->name('logout');	
 	
+	//user Account
+	Route::get('/my-account','UsersController@userAccount')->name('account');	
 });
