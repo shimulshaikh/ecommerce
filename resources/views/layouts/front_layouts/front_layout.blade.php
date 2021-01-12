@@ -24,6 +24,13 @@
 	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="{{asset('frontend/themes/images/ico/apple-touch-icon-72-precomposed.png')}}">
 	<link rel="apple-touch-icon-precomposed" href="{{asset('frontend/themes/images/ico/apple-touch-icon-57-precomposed.png')}}">
 	<style type="text/css" id="enject"></style>
+	<style type="text/css">
+		form.cmxform label.error, label.error {
+		    /* remove the next line when you have trouble in IE6 with labels in list */
+		    color: red;
+		    font-style: italic
+		}
+	</style>
 </head>
 <body>
 	@include('layouts.front_layouts.front_header')
@@ -46,6 +53,7 @@
 @include('layouts.front_layouts.front_footer')
 <!-- Placed at the end of the document so the pages load faster ============================================= -->
 <script src="{{asset('frontend/themes/js/jquery.js')}}" type="text/javascript"></script>
+<script src="{{asset('frontend/jquery.validate.js')}}" type="text/javascript"></script>
 <script src="{{asset('frontend/themes/js/front.min.js')}}" type="text/javascript"></script>
 <script src="{{asset('frontend/themes/js/google-code-prettify/prettify.js')}}"></script>
 

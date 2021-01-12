@@ -30,7 +30,7 @@
 			<div class="well">
 			<h5>CREATE YOUR ACCOUNT</h5><br>
 			Enter your details to create an account.<br><br>
-			<form action="{{route('register')}}" method="post">@csrf
+			<form id="registerForm" action="{{route('register')}}" method="post">@csrf
 			  <div class="control-group">
 				<label class="control-label" for="name">Name</label>
 				<div class="controls">
