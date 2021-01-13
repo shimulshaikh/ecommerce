@@ -17,11 +17,6 @@ class UsersController extends Controller
 		return view('front.users.login_register');
 	}
 
-	public function loginUser()
-	{
-		
-	}
-
 	public function registerUser(Request $request)
 	{
 		if ($request->isMethod('post')) {
@@ -60,6 +55,20 @@ class UsersController extends Controller
 			return "false";
 		}else{
 			return "true";
+		}
+	}
+
+	public function loginUser(Request $request)
+	{
+		if ($request->isMethod('post')) {
+			$data = $request->all();
+			// echo "<pre>"; print_r($data); die;
+			if (Auth::attempt(['email'=>$data['email'], 'password'=>$data['password']])) {
+				return redirect('/cart');
+			}else{
+				Session::flash('error', 'Invalid Username or Password!');
+                return redirect()->back();
+			}
 		}
 	}
 

@@ -111,7 +111,7 @@ Route::namespace('Front')->group(function(){
 	Route::get('/login-register','UsersController@loginRegister');	
 
 	//Login user
-	Route::post('/login','UsersController@loginUser');	
+	Route::post('/login','UsersController@loginUser')->name('loginUser');	
 
 	//Register user
 	Route::post('/register','UsersController@registerUser')->name('register');

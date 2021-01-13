@@ -224,8 +224,8 @@ $(document).ready(function(){
 				name: "required",
 				mobile: {
 					required: true,
-					minlength: 10,
-					maxlength: 10,
+					minlength: 11,
+					maxlength: 11,
 					digits: true
 				},
 				email: {
@@ -242,8 +242,8 @@ $(document).ready(function(){
 				name: "Please enter your name",
 				mobile: {
 					required: "Please enter a Mobile",
-					minlength: "Your Mobile must consist 10 digits",
-					maxlength: "Your Mobile must consist 10 digits",
+					minlength: "Your Mobile must consist 11 digits",
+					maxlength: "Your Mobile must consist 11 digits",
 					digits: "please enter your valid Mobile"
 				},
 				email: {
@@ -257,6 +257,30 @@ $(document).ready(function(){
 				}
 			}
 		});
+
+	// validate Login form on keyup and submit
+		$("#loginForm").validate({
+			rules: {
+				email: {
+					required: true,
+					email: true
+				},
+				password: {
+					required: true,
+					minlength: 6
+				}
+			},
+			messages: {
+				email: {
+					required: "please enter your Email",
+					email: "please enter your valid Email"
+				},
+				password: {
+					required: "Please Enter your password",
+					minlength: "Your password must be at least 6 characters long"
+				}
+			}
+		});	
 
 
 
