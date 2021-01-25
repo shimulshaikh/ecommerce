@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\User;
+use App\Cart;
 use Response;
 use Session;
 use Auth;
+use Mail;
 
 class UsersController extends Controller
 {
@@ -40,6 +42,20 @@ class UsersController extends Controller
 
 				if (Auth::attempt(['email'=>$data['email'],'password'=>$data['password']])) {
 					// echo "<pre>"; print_r(Auth::user()); die;
+					//update user cart with user id
+					if (!empty(Session::get('session_id'))) {
+						$user_id = Auth::user()->id;
+						$session_id = Session::get('session_id');
+						Cart::where('session_id', $session_id)->update(['user_id'=>$user_id]);
+					}
+
+					//Send Register Email
+					$email = $data['email'];
+					$messageData = ['name'=>$data['name'],'mobile'=>$data['mobile'],'email'=>$data['email']];
+					Mail::send('emails.register',$messageData,function($message) use($email){
+						$message->to($email)->subject('Welcome to E-commerce Website');
+					});
+
 					return redirect('cart');
 				}
 			}
@@ -64,6 +80,13 @@ class UsersController extends Controller
 			$data = $request->all();
 			// echo "<pre>"; print_r($data); die;
 			if (Auth::attempt(['email'=>$data['email'], 'password'=>$data['password']])) {
+
+				//update user cart with user id
+				if (!empty(Session::get('session_id'))) {
+					$user_id = Auth::user()->id;
+					$session_id = Session::get('session_id');
+					Cart::where('session_id', $session_id)->update(['user_id'=>$user_id]);
+				}
 				return redirect('/cart');
 			}else{
 				Session::flash('error', 'Invalid Username or Password!');

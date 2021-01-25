@@ -179,11 +179,17 @@ class ProductsController extends Controller
                 return redirect()->back();
             }
 
+            if (Auth::check()) {
+                $user_id = Auth::user()->id;
+            }else{
+                $user_id = 0;
+            }
+
             //Save product in cart
             $cart = new Cart;
             $cart->session_id = $session_id;
             if(empty($data['user_id'])){
-                $cart->user_id = 0;   
+                $cart->user_id = $user_id;   
             }else{
                 $cart->user_id = $data['user_id'];
             }
