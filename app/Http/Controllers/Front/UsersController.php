@@ -37,28 +37,74 @@ class UsersController extends Controller
 				$user->mobile = $data['mobile'];
 				$user->email = $data['email'];
 				$user->password = bcrypt($data['password']);
-				$user->status = 1;
+				$user->status = 0;
 				$user->save();
 
-				if (Auth::attempt(['email'=>$data['email'],'password'=>$data['password']])) {
-					// echo "<pre>"; print_r(Auth::user()); die;
-					//update user cart with user id
-					if (!empty(Session::get('session_id'))) {
-						$user_id = Auth::user()->id;
-						$session_id = Session::get('session_id');
-						Cart::where('session_id', $session_id)->update(['user_id'=>$user_id]);
-					}
+				//send Confirmation Mail
+				$email = $data['email'];
+				$messageData = [
+					'email' => $data['email'],
+					'name' => $data['name'],
+					'code' => base64_encode($data['email'])
+				];
 
-					//Send Register Email
-					$email = $data['email'];
-					$messageData = ['name'=>$data['name'],'mobile'=>$data['mobile'],'email'=>$data['email']];
-					Mail::send('emails.register',$messageData,function($message) use($email){
-						$message->to($email)->subject('Welcome to E-commerce Website');
-					});
+				Mail::send('emails.confirmation',$messageData, function($message) use($email){
+					$message->to($email)->subject('Confirm your E-commerce Account');
+				});
 
-					return redirect('cart');
-				}
+				//Redirect back with Success Message
+				Session::flash('success', 'Please confirm your email to activate your account!');
+                return redirect()->back();
+
+				// if (Auth::attempt(['email'=>$data['email'],'password'=>$data['password']])) {
+				// 	// echo "<pre>"; print_r(Auth::user()); die;
+				// 	//update user cart with user id
+				// 	if (!empty(Session::get('session_id'))) {
+				// 		$user_id = Auth::user()->id;
+				// 		$session_id = Session::get('session_id');
+				// 		Cart::where('session_id', $session_id)->update(['user_id'=>$user_id]);
+				// 	}
+
+				// 	//Send Register Email
+				// 	$email = $data['email'];
+				// 	$messageData = ['name'=>$data['name'],'mobile'=>$data['mobile'],'email'=>$data['email']];
+				// 	Mail::send('emails.register',$messageData,function($message) use($email){
+				// 		$message->to($email)->subject('Welcome to E-commerce Website');
+				// 	});
+
+				// 	return redirect('cart');
+				// }
 			}
+		}
+	}
+
+	public function confirmAccount($email)
+	{
+		//decode user email
+		$email = base64_decode($email);
+
+		//check user email exists
+		$userCount = User::where('email',$email)->count();
+		if ($userCount>0) {
+			//user email is already activated or not 
+			$userDetails = User::where('email',$email)->first();
+			if ($userDetails->status==1) {
+				Session::flash('error', 'Your Email account is already activated. Please login.');
+			}else{
+				//update user status to 1 to activate account
+				User::where('email',$email)->update(['status'=>1]);
+
+				//Send Register Email
+				$messageData = ['name'=>$userDetails['name'],'mobile'=>$userDetails['mobile'],'email'=>$email];
+				Mail::send('emails.register',$messageData,function($message) use($email){
+					$message->to($email)->subject('Welcome to E-commerce Website');
+				});	
+
+				Session::flash('success', 'Your Email account is already activated!. You can login now.');
+                return redirect('login-register');				
+			}
+		}else{
+			abort(404);
 		}
 	}
 
@@ -80,6 +126,13 @@ class UsersController extends Controller
 			$data = $request->all();
 			// echo "<pre>"; print_r($data); die;
 			if (Auth::attempt(['email'=>$data['email'], 'password'=>$data['password']])) {
+				//check email is activated or not
+				$userStatus = User::where('email',$data['email'])->first();
+				if ($userStatus->status == 0) {
+					Auth::logout();
+					Session::flash('error', 'Your account is not activated yet! Please confirm your email to activete!');
+                	return redirect()->back();
+				}
 
 				//update user cart with user id
 				if (!empty(Session::get('session_id'))) {

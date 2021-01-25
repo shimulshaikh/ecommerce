@@ -124,4 +124,8 @@ Route::namespace('Front')->group(function(){
 	
 	//user Account
 	Route::get('/my-account','UsersController@userAccount')->name('account');	
+
+	//confirm account
+	Route::match(['get','post'],'confirm/{code}', 'UsersController@confirmAccount');
+
 });
