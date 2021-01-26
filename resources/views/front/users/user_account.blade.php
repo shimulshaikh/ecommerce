@@ -4,7 +4,7 @@
 <div class="span9">
     <ul class="breadcrumb">
 		<li><a href="index.html">Home</a> <span class="divider">/</span></li>
-		<li class="active">Login</li>
+		<li class="active">My account</li>
     </ul>
 	<h3> My Account</h3>	
 	<hr class="soft">
@@ -65,7 +65,7 @@
 				  <select class="span3" id="country" name="country">
 				  	<option value="">Select Country</option>
 				  	@foreach($countries as $country)
-				  		<option value="{{ $country['country_name'] }} @if($country['country_name']==$user_details['country']) selected="" @endif>{{ $country['country_name'] }}</option>
+				  		<option value="{{ $country['country_name'] }}" @if($country['country_name']==$user_details['country']) selected="" @endif>{{ $country['country_name'] }}</option>
 				  	@endforeach
 				  </select>
 				</div>
@@ -102,27 +102,28 @@
 		<div class="span4">
 			<div class="well">
 			<h5>UPDATE PASSWORD</h5>
-			<form id="passwordForm" action="{{url('/update-password')}}" method="post">@csrf
+			<form id="passwordForm" action="{{url('/update-user-password')}}" method="post">@csrf
 
 			  <div class="control-group">
-				<label class="control-label" for="password">CurrentPassword</label>
+				<label class="control-label" for="current_pwd">CurrentPassword</label>
 				<div class="controls">
-				  <input class="span3" type="password" id="password" name="password" placeholder="Password">
+				  <input class="span3" type="password" id="current_pwd" name="current_pwd" placeholder="Current Password" required="">
 				</div>
+				<span id="checkCurrentPwd"></span>
 			  </div>
 
 
 			  <div class="control-group">
-				<label class="control-label" for="password">New Password</label>
+				<label class="control-label" for="new_pwd">New Password</label>
 				<div class="controls">
-				  <input class="span3" type="password" id="password" name="password" placeholder="Password">
+				  <input class="span3" type="password" id="new_pwd" name="new_pwd" placeholder="New Password" required="">
 				</div>
 			  </div>
 
 			  <div class="control-group">
-				<label class="control-label" for="password">Confirm Password</label>
+				<label class="control-label" for="confirm_pwd">Confirm Password</label>
 				<div class="controls">
-				  <input class="span3" type="password" id="password" name="password" placeholder="Password">
+				  <input class="span3" type="password" id="confirm_pwd" name="confirm_pwd" placeholder="Confirm Password" required="">
 				</div>
 			  </div>
 

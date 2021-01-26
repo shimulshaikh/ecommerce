@@ -131,4 +131,10 @@ Route::namespace('Front')->group(function(){
 	//user account
 	Route::match(['get','post'],'/account', 'UsersController@userAccount')->name('account');
 
+	//Check user Password
+	Route::post('/check-user-current-pwd','UsersController@checkUserCurrentPassword');
+
+	//Update user password
+	Route::post('/update-user-password','UsersController@updateUserPassword');
+
 });

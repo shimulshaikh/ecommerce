@@ -11,6 +11,7 @@ use Response;
 use Session;
 use Auth;
 use Mail;
+use Hash;
 
 class UsersController extends Controller
 {
@@ -226,6 +227,46 @@ class UsersController extends Controller
 		}
 
 		return view('front.users.user_account', compact('user_details','countries'));
+	}
+
+	public function checkUserCurrentPassword(Request $request)
+	{
+		$data = $request->all();
+    	//echo "<pre>"; print_r($data); die;
+    	if(Hash::check($data['current_pwd'], Auth::user()->password)){
+    		echo "true";
+    	}else{
+    		echo "false";
+    	}
+	}
+
+	public function updateUserPassword(Request $request)
+	{
+		if ($request->isMethod('post')) {
+    		$data = $request->all();
+    		//echo "<pre>"; print_r($data); die;	
+
+    		//Check if current password is correct
+    		if(Hash::check($data['current_pwd'], Auth::user()->password))
+    		{
+    			//check if new and confirm password is matching
+    			if($data['new_pwd'] == $data['confirm_pwd'])
+    			{
+    				User::where('id',Auth::user()->id)->update(['password'=>bcrypt($data['new_pwd'])]);
+    				Session::flash('success', 'Password has been updated successfully');
+    			}
+    			else
+    			{
+    				Session::flash('error', 'New password and Confirm password not match');
+    			}
+		    }
+		    else
+		    {
+		    	Session::flash('error', 'Your Current password is incorrect');
+		    }
+
+		    return redirect()->back();	
+    	}
 	}
 
 }

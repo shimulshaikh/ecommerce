@@ -308,7 +308,70 @@ $(document).ready(function(){
 					digits: "please enter your valid Mobile"
 				}
 			}
-		});		
+		});	
+
+
+	//Check User password is correct or not
+	$("#current_pwd").keyup(function(){
+		var current_pwd = $("#current_pwd").val();
+		//alert(current_pwd);
+		$.ajax({
+			type : 'post',
+			url: '/check-user-current-pwd',
+			data: {current_pwd:current_pwd},
+			success:function(resp){
+				//alert(resp);
+				if (resp=="false") {
+					$("#checkCurrentPwd").html("<font color=red>Current Password is incorrect</font>");
+				}else if(resp=="true"){
+					$("#checkCurrentPwd").html("<font color=green>Current Password is correct</font>");
+				}
+			},error:function(){
+				alert("Error");
+			}
+		});
+	});
+	//End Check user password is correct or not	
+
+	// validate password update form on keyup and submit
+		$("#passwordForm").validate({
+			rules: {
+				current_pwd: {
+					required: true,
+					minlength: 6,
+					maxlength: 20
+				},
+				new_pwd: {
+					required: true,
+					minlength: 6,
+					maxlength: 20
+				},
+				confirm_pwd: {
+					required: true,
+					minlength: 6,
+					maxlength: 20,
+					equalTo:"#new_pwd"
+				}
+			},
+			messages: {
+				current_pwd: {
+					required: "Please choose your New password",
+					minlength: "Your password must be at least 6 characters long",
+					maxlength: "Your password must be at least 6 characters long"
+				},
+				new_pwd: {
+					required: "Please choose your New password",
+					minlength: "Your password must be at least 6 characters long",
+					maxlength: "Your password must be at least 6 characters long"
+				},
+				confirm_pwd: {
+					required: "Please choose your New password",
+					minlength: "Your password must be at least 6 characters long",
+					maxlength: "Your password must be at least 6 characters long",
+					equalTo: "New & Confirm Password Must be same"
+				}
+			}
+		});	
 
 
 
