@@ -120,15 +120,15 @@ Route::namespace('Front')->group(function(){
 	Route::match(['get','post'],'/check-email', 'UsersController@checkEmail');
 
 	//User logout
-	Route::get('/logout','UsersController@logoutUser')->name('logout');	
-	
-	//user Account
-	Route::get('/my-account','UsersController@userAccount')->name('account');	
+	Route::get('/logout','UsersController@logoutUser')->name('logout');		
 
 	//confirm account
 	Route::match(['get','post'],'confirm/{code}', 'UsersController@confirmAccount');
 
 	//Forgot password
 	Route::match(['get','post'],'/forgot-password', 'UsersController@forgotPassword');
+
+	//user account
+	Route::match(['get','post'],'/account', 'UsersController@userAccount')->name('account');
 
 });

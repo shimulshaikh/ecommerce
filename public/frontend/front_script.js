@@ -280,7 +280,35 @@ $(document).ready(function(){
 					minlength: "Your password must be at least 6 characters long"
 				}
 			}
-		});	
+		});
+
+	// validate user account form on keyup and submit
+		$("#accountForm").validate({
+			rules: {
+				name: {
+					required: true,
+					lettersonly: true
+				},
+				mobile: {
+					required: true,
+					minlength: 11,
+					maxlength: 11,
+					digits: true
+				}
+			},
+			messages: {
+				name: {
+					required: "Please enter your Name",
+					lettersonly: "Please enter valid Name"
+				},
+				mobile: {
+					required: "Please enter a Mobile",
+					minlength: "Your Mobile must consist 11 digits",
+					maxlength: "Your Mobile must consist 11 digits",
+					digits: "please enter your valid Mobile"
+				}
+			}
+		});		
 
 
 
