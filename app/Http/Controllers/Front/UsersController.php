@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\User;
 use App\Cart;
+use App\Country;
 use Response;
 use Session;
 use Auth;
@@ -203,6 +204,9 @@ class UsersController extends Controller
 		$user_id = Auth::user()->id;
 		$user_details = User::find($user_id)->toArray();
 
+		$countries = Country::where('status',1)->get()->toArray();
+		//dd($countries);
+
 		if ($request->isMethod('post')) {
 			$data = $request->all();
 			// echo "<pre>"; print_r($data); die;
@@ -221,7 +225,7 @@ class UsersController extends Controller
 			return redirect()->back();
 		}
 
-		return view('front.users.user_account', compact('user_details'));
+		return view('front.users.user_account', compact('user_details','countries'));
 	}
 
 }

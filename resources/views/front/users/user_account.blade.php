@@ -62,7 +62,12 @@
 			  <div class="control-group">
 				<label class="control-label" for="country">Country</label>
 				<div class="controls">
-				  <input class="span3" type="text" id="country" name="country" placeholder="Enter Country" value="{{$user_details['country']}}">
+				  <select class="span3" id="country" name="country">
+				  	<option value="">Select Country</option>
+				  	@foreach($countries as $country)
+				  		<option value="{{ $country['country_name'] }} @if($country['country_name']==$user_details['country']) selected="" @endif>{{ $country['country_name'] }}</option>
+				  	@endforeach
+				  </select>
 				</div>
 			  </div>
 
