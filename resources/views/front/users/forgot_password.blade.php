@@ -4,7 +4,7 @@
 <div class="span9">
     <ul class="breadcrumb">
 		<li><a href="index.html">Home</a> <span class="divider">/</span></li>
-		<li class="active">Login</li>
+		<li class="active">Forgot Password</li>
     </ul>
 	<h3> Forgot Password</h3>	
 	<hr class="soft">

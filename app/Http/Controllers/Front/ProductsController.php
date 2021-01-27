@@ -251,9 +251,11 @@ class ProductsController extends Controller
             Cart::where('id',$data['cartid'])->update(['quantity'=>$data['qty']]);
 
             $userCartItems = Cart::userCartItems();
+            $totalCartItems = totalCartItems();
 
             return response()->json([
                 'status'=>true,
+                'totalCartItems'=>$totalCartItems,
                 'view'=>(String)View::make('front.products.cart_items')->with(compact('userCartItems'))
             ]);
         }
@@ -267,11 +269,13 @@ class ProductsController extends Controller
             // echo "<pre>"; print_r($data); die;
 
             Cart::where('id',$data['cartid'])->delete();
+            $totalCartItems = totalCartItems();
 
             $userCartItems = Cart::userCartItems();
                 return response()->json([
-                'message'=>'Product Stock is not available',
-                'view'=>(String)View::make('front.products.cart_items')->with(compact('userCartItems'))
+                    'totalCartItems'=>$totalCartItems,    
+                    'message'=>'Product Stock is not available',
+                    'view'=>(String)View::make('front.products.cart_items')->with(compact('userCartItems'))
                 ]);
         }
     }

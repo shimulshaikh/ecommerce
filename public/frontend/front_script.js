@@ -191,6 +191,7 @@ $(document).ready(function(){
 				if (resp.status==false) {
 					alert(resp.message);
 				}
+				$(".totalCartItems").html(resp.totalCartItems);
 				$("#AppendCartItems").html(resp.view);
 			},error:function(){
 				alert("Error");
@@ -210,6 +211,7 @@ $(document).ready(function(){
 				url:'/delete-cart-item',
 				type:'post',
 				success:function(resp){
+					$(".totalCartItems").html(resp.totalCartItems);
 					$("#AppendCartItems").html(resp.view);
 				},error:function(){
 					alert("Error");
@@ -355,19 +357,19 @@ $(document).ready(function(){
 			},
 			messages: {
 				current_pwd: {
-					required: "Please choose your New password",
+					required: "Please choose your Current password",
 					minlength: "Your password must be at least 6 characters long",
-					maxlength: "Your password must be at least 6 characters long"
+					maxlength: "Your password must be at least 20 characters long"
 				},
 				new_pwd: {
 					required: "Please choose your New password",
 					minlength: "Your password must be at least 6 characters long",
-					maxlength: "Your password must be at least 6 characters long"
+					maxlength: "Your password must be at least 20 characters long"
 				},
 				confirm_pwd: {
-					required: "Please choose your New password",
+					required: "Please choose your Confirm password",
 					minlength: "Your password must be at least 6 characters long",
-					maxlength: "Your password must be at least 6 characters long",
+					maxlength: "Your password must be at least 20 characters long",
 					equalTo: "New & Confirm Password Must be same"
 				}
 			}
