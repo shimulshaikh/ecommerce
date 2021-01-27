@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -18,6 +20,7 @@ class DatabaseSeeder extends Seeder
         //$this->call(ProductAttributeTableSeeder::class);
         //$this->call(productsImagesTableSeeder::class);
         //$this->call(BrandsTableSeeder::class);
-        $this->call(BannersTableSeeder::class);
+        //$this->call(BannersTableSeeder::class);
+        $this->call(CouponsTableSeeder::class);
     }
 }
