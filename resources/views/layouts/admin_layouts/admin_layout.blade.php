@@ -86,6 +86,9 @@
     $("#banners").DataTable({
       "responsive": true,
     });
+    $("#coupons").DataTable({
+      "responsive": true,
+    });
   });
 </script>
 

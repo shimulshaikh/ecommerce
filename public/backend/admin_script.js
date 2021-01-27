@@ -231,4 +231,29 @@ $(document).ready(function(){
 	});
 
 
+	//update coupon status
+	$(document).on("click",".updateCouponStatus",function(){	
+		var status = $(this).children("i").attr("status");
+		var coupon_id = $(this).attr("coupon_id");
+		// alert(status);
+		// alert(coupon_id);
+		$.ajax({
+			type : 'post',
+			url : '/admin/update-coupon-status',
+			data : {status:status, coupon_id:coupon_id},
+			success:function(resp){
+				// alert(resp['status']);
+				// alert(resp['coupon_id']);
+				if(resp['status']==0){
+					$("#coupon-"+coupon_id).html("<i class='fas fa-toggle-off' aria-hidden='true' status='Inactive'></i>");
+				}else if(resp['status']==1){
+					$("#coupon-"+coupon_id).html("<i class='fas fa-toggle-on' aria-hidden='true' status='Active'></i>");	
+				}
+			},error:function(){
+				alert('Error');
+			}
+		});
+	});
+
+
 });
