@@ -40,7 +40,7 @@
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title">Coupons</h3>
-                <a href="" style="max-width: 150px; float: right; display: inline-block;" class="btn btn-block btn-success">Add Coupon</a>
+                <a href="{{ url('admin/add-edit-coupon') }}" style="max-width: 150px; float: right; display: inline-block;" class="btn btn-block btn-success">Add Coupon</a>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
