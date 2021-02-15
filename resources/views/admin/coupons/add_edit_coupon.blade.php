@@ -34,7 +34,7 @@
                   </div>
               @endif
 
-      <form name="couponForm" id="couponForm" @if(!empty($coupon['id'])) action="{{ url('admin/add-edit-coupon') }}" @else action="{{ url('admin/add-edit-coupon/'.$coupon['id']) }} @endif" method="post">
+      <form name="couponForm" id="couponForm" @if(empty($coupon['id'])) action="{{ url('admin/add-edit-coupon') }}" @else action="{{ url('admin/add-edit-coupon/'.$coupon['id']) }} @endif" method="post">
         @csrf
         <div class="card card-default">
           <div class="card-header">
@@ -48,6 +48,7 @@
           <div class="card-body">
             <div class="row">
               <div class="col-md-6">
+                @if(empty($coupon['coupon_code']))
                 <div class="form-group">
                     <label for="coupon_option">Coupon Option</label><br>
                     <span>
@@ -62,13 +63,21 @@
                     <label for="coupon_code">Coupon Code</label>
                     <input type="text" name="coupon_code" class="form-control" id="coupon_code" placeholder="Enter Coupon Code" value="{{old('coupon_code')}}">
                 </div>
+                @else
+                  <input type="hidden" name="coupon_option" value="{{ $coupon['coupon_option'] }}">
+                  <input type="hidden" name="coupon_code" value="{{ $coupon['coupon_code'] }}">
+                  <div class="form-group">
+                    <label for="coupon_code">Coupon Code</label>
+                    <span>{{ $coupon['coupon_code'] }}</span>
+                  </div>
+                @endif
 
                 <div class="form-group">
                     <label for="coupon_type">Coupon Type</label><br>
                     <span>
-                      <input type="radio" name="coupon_type" value="Multiple Time" checked="">&nbsp;Multiple Time
+                      <input type="radio" name="coupon_type" value="Multiple Time" @if(isset($coupon['coupon_type']) && $coupon['coupon_type']=="Multiple Time") checked="" @elseif(!isset($coupon['coupon_type'])) checked="" @endif>&nbsp;Multiple Time
                       &nbsp;&nbsp;
-                      <input type="radio" name="coupon_type" value="Single Time">&nbsp;Single Time
+                      <input type="radio" name="coupon_type" value="Single Time" @if(isset($coupon['coupon_type']) && $coupon['coupon_type']=="Single Time") checked="" @endif>&nbsp;Single Time
                       &nbsp;&nbsp;
                     </span>
                 </div>
@@ -76,16 +85,16 @@
                 <div class="form-group">
                     <label for="amount_type">Amount Type</label><br>
                     <span>
-                      <input type="radio" name="amount_type" value="Percentage" checked="">&nbsp;Percentage
+                      <input type="radio" name="amount_type" value="Percentage" @if(isset($coupon['amount_type']) && $coupon['amount_type']=="Percentage") checked="" @elseif(!isset($coupon['amount_type'])) checked="" @endif>&nbsp;Percentage
                       &nbsp;(in %)&nbsp;
-                      <input type="radio" name="amount_type" value="Fixed">&nbsp;Fixed
+                      <input type="radio" name="amount_type" value="Fixed" @if(isset($coupon['amount_type']) && $coupon['amount_type']=="Fixed") checked="" @endif>&nbsp;Fixed
                       &nbsp;(in INR or USD)&nbsp;
                     </span>
                 </div>
 
                 <div class="form-group">
                     <label for="amount">Amount</label>
-                    <input type="number" name="amount" class="form-control" id="amount" placeholder="Enter Amount" value="{{old('amount')}}" required="">
+                    <input type="number" name="amount" class="form-control" id="amount" placeholder="Enter Amount" required="" @if(isset($coupon['amount'])) value="{{ $coupon['amount'] }}" @else value="{{old('amount')}}"  @endif>
                 </div>
                </div>
               </div>
@@ -98,9 +107,9 @@
                     @foreach($categories as $section)
                       <optgroup label="{{$section->name}}"></optgroup>
                       @foreach($section['categories'] as $category)
-                        <option value="{{$category->id}}" @if(!empty(@old('category_id')) && $category-> id == @old('category_id')) selected=""  @elseif(!empty($productData['category_id']) && $productData['category_id']==$category->id) selected="" @endif>&nbsp;&nbsp;&nbsp;--{{$category->category_name}}</option>
+                        <option value="{{$category->id}}" @if(in_array($category['id'],$selCats)) selected="" @endif>&nbsp;&nbsp;&nbsp;--{{$category->category_name}}</option>
                           @foreach($category['subcategories'] as $subcategory)
-                            <option value="{{$subcategory->id}}" @if(!empty(@old('category_id')) && $subcategory->id == @old('category_id')) selected="" @elseif(!empty($productData['category_id']) && $productData['category_id']==$subcategory->id) selected="" @endif>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--{{$subcategory->category_name}}</option>
+                            <option value="{{$subcategory->id}}" @if(in_array($subcategory['id'],$selCats)) selected="" @endif>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--{{$subcategory->category_name}}</option>
                           @endforeach
                       @endforeach
                     @endforeach
@@ -112,14 +121,14 @@
                     <select name="users[]" class="form-control select2" multiple="">
                     <option value="">Select</option>
                     @foreach($users as $user)
-                      <option value="{{ $user['email'] }}">{{ $user['email'] }}</option>
+                      <option value="{{ $user['email'] }}" @if(in_array($user['email'],$selUsers)) selected="" @endif>{{ $user['email'] }}</option>
                     @endforeach
                   </select>
                 </div>
 
                 <div class="form-group">
                     <label for="expiry_date">Expiry Date</label>
-                    <input type="text" name="expiry_date" class="form-control" id="expiry_date" placeholder="Enter Expiry Date" value="{{old('expiry_date')}}" data-inputmask-alias="datetime" data-inputmask-inputformat="yyyy/mm/dd" data-mask required="">
+                    <input type="text" name="expiry_date" class="form-control" id="expiry_date" placeholder="Enter Expiry Date" data-inputmask-alias="datetime" data-inputmask-inputformat="yyyy/mm/dd" data-mask required="" @if(isset($coupon['expiry_date'])) value="{{ $coupon['expiry_date'] }}" @else value="{{old('expiry_date')}}" @endif>
                 </div>
               </div> 
               <!-- /.col -->
