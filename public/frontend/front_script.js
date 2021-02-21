@@ -375,6 +375,42 @@ $(document).ready(function(){
 			}
 		});	
 
+		//Apply coupon
+		$("#applyCoupon").submit(function(){
+			//alert("test");
+			var user = $(this).attr("user");
+			if (user == 1) {
+				//do nothing
+			}else{
+				alert("Please log to apply coupon");
+				return false;
+			}
+			var code = $("#code").val();
+			//alert(code);
+			$.ajax({
+				type:'post',
+				data:{code:code},
+				url: '/apply-coupon',
+				success:function(resp){
+					if (resp.message!="") {
+						alert(resp.message);
+					}
+					$(".totalCartItems").html(resp.totalCartItems);
+					$("#AppendCartItems").html(resp.view);
+					if (resp.couponAmount>=0) {
+						$(".couponAmount").html("Rs."+resp.couponAmount);
+					}else{
+						$(".couponAmount").html("Rs.0");
+					}
 
+					if (resp.grand_total>=0) {
+						$(".grand_total").html("Rs."+resp.grand_total);
+					}
+					
+				},error:function(){
+					alert("Error");
+				}
+			});
+		});
 
 });

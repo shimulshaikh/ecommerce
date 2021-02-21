@@ -146,6 +146,12 @@ Route::namespace('Front')->group(function(){
 		//Update user password
 		Route::post('/update-user-password','UsersController@updateUserPassword');
 
+		//Apply coupon
+		Route::post('/apply-coupon','ProductsController@applyCoupon');
+
+		//checkout
+		Route::match(['get','post'],'/checkout', 'ProductsController@checkout');
+
 	});
 
 
