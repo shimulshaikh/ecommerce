@@ -152,6 +152,12 @@ Route::namespace('Front')->group(function(){
 		//checkout
 		Route::match(['get','post'],'/checkout', 'ProductsController@checkout');
 
+		//Add/edit/delivery/address
+		Route::match(['get','post'],'/add-edit-delivery-address/{id?}', 'ProductsController@addEditDeliveryAddress');
+
+		//Delete delivery address
+		Route::get('/delete-delivery-address/{id?}', 'ProductsController@deleteDeliveryAddress');
+
 	});
 
 

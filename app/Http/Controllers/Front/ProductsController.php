@@ -12,7 +12,9 @@ use App\Product;
 use App\Cart;
 use App\Coupon;
 use App\User;
+use App\Country;
 use App\ProductsAttribute;
+use App\DeliveryAddress;
 use Response;
 use Session;
 use Auth;
@@ -407,6 +409,80 @@ class ProductsController extends Controller
                     }
                }
            }   
+    }
+
+
+    public function checkout(Request $request)
+    {
+        $userCartItems = Cart::userCartItems();
+        $deliveryAddresse = DeliveryAddress::deliveryAddresses();
+        return view('front.products.checkout')->with(compact('userCartItems','deliveryAddresse'));
+    }
+
+    public function addEditDeliveryAddress(Request $request,$id=null)
+    {
+        if ($id=="") {
+            //Add delivery address
+            $title = "Add Delivery Address";
+            $address = new DeliveryAddress;
+            $message = "Delivery address added successfully!";
+        }else{
+            //Edit delivery address
+            $title = "Edit Delivery Address";
+            $address = DeliveryAddress::find($id);
+            $message = "Delivery address updated successfully!";
+        }
+
+        if ($request->isMethod('post')) {
+            $data = $request->all();
+            // echo "<pre>"; print_r($data); die;
+
+            //validation customize
+            $rule = [
+                'name' => 'required',
+                'address' => 'required',
+                'city' => 'required',
+                'country' => 'required',
+                'pincode' => 'required',
+                'mobile' => 'required'
+            ];
+
+            $customMessages = [
+                'name.required' => 'Name is required',
+                'address.required' => 'Address is reduired',
+                'city.required' => 'City is reduired',
+                'country.required' => 'Country is reduired',
+                'pincode.required' => 'Country is reduired',
+                'mobile.required' => 'Mobile is reduired',
+            ];
+
+            $this->validate($request, $rule, $customMessages);
+            //end validation customize
+
+            $address->name = $data['name'];
+            $address->address = $data['address'];
+            $address->user_id = Auth()->user()->id;
+            $address->city = $data['city'];
+            $address->state = $data['state'];
+            $address->country = $data['country'];
+            $address->pincode = $data['pincode'];
+            $address->mobile = $data['mobile'];
+            $address->save();
+            Session::put('success',$message);
+            return redirect()->back();
+        }
+
+        $countries = Country::where('status',1)->get()->toArray();
+        return view('front.products.add_edit_delivery_address')->with(compact('countries','title','address'));
+    }
+
+    public function deleteDeliveryAddress($id)
+    {
+        $address = DeliveryAddress::find($id);
+        $message = "Delivery address deleted successfully!";
+        $address->delete();
+        Session::put('success',$message);
+        return redirect()->back();
     }
 
 
