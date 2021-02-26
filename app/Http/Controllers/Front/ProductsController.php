@@ -13,11 +13,14 @@ use App\Cart;
 use App\Coupon;
 use App\User;
 use App\Country;
+use App\Order;
+use App\OrdersProduct;
 use App\ProductsAttribute;
 use App\DeliveryAddress;
 use Response;
 use Session;
 use Auth;
+use DB;
 
 class ProductsController extends Controller
 {
@@ -423,13 +426,86 @@ class ProductsController extends Controller
                 return redirect()->back();
             }
 
-            if (empty($data['payment_method'])) {
+            if (empty($data['payment_gateway'])) {
                 $message = "Please select Payment Method";
                 session::flash('error', $message);
                 return redirect()->back();
             }
 
-            print_r($data); die;
+            if ($data['payment_gateway'] == "COD") {
+                $payment_method = "COD";
+            }else{
+                $payment_method = "Prepaid";
+            }
+
+            //Get delivary address from address_id
+            $deliveryAddresse = DeliveryAddress::where('id',$data['address_id'])->first()->toArray();
+
+            DB::beginTransaction();
+
+            
+            //Insert Order details
+            $order = new Order;
+            $order->user_id = Auth::user()->id;
+            $order->name = $deliveryAddresse['name'];
+            $order->address = $deliveryAddresse['address'];
+            $order->city = $deliveryAddresse['city'];
+            $order->state = $deliveryAddresse['state'];
+            $order->country = $deliveryAddresse['country'];
+            $order->pincode = $deliveryAddresse['pincode'];
+            $order->mobile = $deliveryAddresse['mobile'];
+            $order->email = Auth::user()->email;
+            $order->shipping_charges = 0;
+            if (!empty(Session::get('couponCode'))) {
+                $order->coupon_code = Session::get('couponCode');
+            }else{
+                $order->coupon_code = "";
+            }
+
+            if (!empty(Session::get('couponAmount'))) {
+                $order->coupon_amount = Session::get('couponAmount');
+            }else{
+                $order->coupon_amount = "";
+            }
+            $order->order_status = "New";
+            $order->payment_method = $payment_method;
+            $order->payment_gateway = $data['payment_gateway'];
+            $order->grand_total = Session::get('grand_total');
+            $order->save();
+
+            //Get last Order Id
+            $order_id = DB::getPdo()->lastInsertId();
+
+            //Get user cart Item
+            $cartItems = Cart::where('user_id',Auth::user()->id)->get()->toArray();
+             foreach ($cartItems as $item) {
+                 $cartItem = new OrdersProduct;
+
+                 $cartItem->order_id = $order_id;
+                 $cartItem->user_id = Auth::user()->id;
+
+                 $getProductDetails = Product::select('product_code','product_name','product_color')->where('id', $item['product_id'])->first()->toArray();
+
+                 $cartItem->product_id = $item['product_id'];
+                 $cartItem->product_code = $getProductDetails['product_code'];
+                 $cartItem->product_name = $getProductDetails['product_name'];
+                 $cartItem->product_color = $getProductDetails['product_color'];
+                 $cartItem->product_size = $item['size'];
+
+                 $proAttriPrice = Product::getDiscountAttriPrice($item['product_id'],$item['size']);
+
+                 $cartItem->product_price = $proAttriPrice['discount_price'];
+                 $cartItem->product_qty = $item['quantity'];
+                 $cartItem->save();
+
+             }
+
+             //Empty the user cart
+             Cart::where('user_id', Auth::user()->id)->delete();
+
+             DB::commit();
+             echo "order place"; die;
+
         }
         $userCartItems = Cart::userCartItems();
         $deliveryAddresse = DeliveryAddress::deliveryAddresses();

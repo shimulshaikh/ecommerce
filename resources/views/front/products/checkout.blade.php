@@ -117,8 +117,8 @@
 					<label class="control-label"><strong> PAYMENT METHODS: </strong> </label>
 						<div class="controls">
 							<span>
-								<input type="radio" name="payment_method" id="COD" value="COD"><strong>COD</strong>&nbsp;&nbsp;
-								<input type="radio" name="payment_method" id="Paypal" value="Paypal"><strong>Paypal</strong>
+								<input type="radio" name="payment_gateway" id="COD" value="COD"><strong>COD</strong>&nbsp;&nbsp;
+								<input type="radio" name="payment_gateway" id="Paypal" value="Paypal"><strong>Paypal</strong>
 							</span>
 						</div>
 					</div>
