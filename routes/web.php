@@ -158,6 +158,9 @@ Route::namespace('Front')->group(function(){
 		//Delete delivery address
 		Route::get('/delete-delivery-address/{id?}', 'ProductsController@deleteDeliveryAddress');
 
+		//For Thanks 
+		Route::get('/thanks', 'ProductsController@thanks');
+
 	});
 
 
