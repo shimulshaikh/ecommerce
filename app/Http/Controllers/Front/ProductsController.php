@@ -414,6 +414,23 @@ class ProductsController extends Controller
 
     public function checkout(Request $request)
     {
+        if ($request->isMethod('post')) {
+            $data = $request->all();
+
+            if (empty($data['address_id'])) {
+                $message = "Please select Delivery Address";
+                session::flash('error', $message);
+                return redirect()->back();
+            }
+
+            if (empty($data['payment_method'])) {
+                $message = "Please select Payment Method";
+                session::flash('error', $message);
+                return redirect()->back();
+            }
+
+            print_r($data); die;
+        }
         $userCartItems = Cart::userCartItems();
         $deliveryAddresse = DeliveryAddress::deliveryAddresses();
         return view('front.products.checkout')->with(compact('userCartItems','deliveryAddresse'));
