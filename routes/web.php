@@ -140,6 +140,12 @@ Route::namespace('Front')->group(function(){
 		//user account
 		Route::match(['get','post'],'/account', 'UsersController@userAccount')->name('account');
 
+		//Users Orders
+		Route::get('/orders', 'OrdersController@orders');
+
+		//user order details
+		Route::get('/orders/{id}', 'OrdersController@orderDetails');
+
 		//Check user Password
 		Route::post('/check-user-current-pwd','UsersController@checkUserCurrentPassword');
 

@@ -94,4 +94,12 @@ class Product extends Model
 
         return array('product_price'=>$proAttriPrice['price'], 'discount_price'=>$discount_price,'discount'=>$discount);
     }
+
+
+    public static function getProductImage($product_id)
+    {
+        $getProductImage = Product::select('main_image')->where('id', $product_id)->first()->toArray();
+        return $getProductImage['main_image'];
+    } 
+
 }
