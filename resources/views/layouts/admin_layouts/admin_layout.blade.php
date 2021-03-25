@@ -89,6 +89,9 @@
     $("#coupons").DataTable({
       "responsive": true,
     });
+    $("#orders").DataTable({
+      "responsive": true,
+    });
   });
 </script>
 

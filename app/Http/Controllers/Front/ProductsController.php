@@ -21,6 +21,7 @@ use Response;
 use Session;
 use Auth;
 use DB;
+use Mail;
 
 class ProductsController extends Controller
 {
@@ -510,7 +511,23 @@ class ProductsController extends Controller
              DB::commit();
 
              if ($data['payment_gateway'] == "COD") {
-                 return redirect('/thanks');
+
+                $orderDetails = Order::with('orders_product')->where('id', $order_id)->first()->toArray();
+                
+                //send order email
+                $email = Auth::user()->email;
+                $messageData = [
+                    'email' => $email,
+                    'name' => Auth::user()->name,
+                    'order_id' => $order_id,
+                    'orderDetails' => $orderDetails
+                ];
+
+                Mail::send('emails.order', $messageData, function($message) use($email){
+                    $message->to($email)->subject('Order Place - Mojar Shopping');
+                });
+
+                return redirect('/thanks');
              }else{
                 echo "Prepaid Method Comming soon....."; die;
              }
