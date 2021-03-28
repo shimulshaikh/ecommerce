@@ -53,6 +53,17 @@
                       <td>Order Status</td>
                       <td>{{ $orderDetails['order_status'] }}</td>
                     </tr>
+                    @if(!empty($orderDetails['courier_name']) && !empty($orderDetails['tracking_number']))
+                      <tr>
+                        <td>Courier Name</td>
+                        <td>{{ $orderDetails['courier_name'] }}</td>
+                      </tr>
+
+                      <tr>
+                        <td>Tracking Number</td>
+                        <td>{{ $orderDetails['tracking_number'] }}</td>
+                      </tr>
+                    @endif
                     <tr>
                       <td>Order Total</td>
                       <td>{{ $orderDetails['grand_total'] }}</td>
@@ -200,13 +211,24 @@
                         <form action="{{ url('admin/update-order-status') }}" method="post">
                           @csrf
                         <input type="hidden" name="order_id" value="{{$orderDetails['id']}}">  
-                        <select name="order_status" required="">
+                        <select name="order_status" required="" id="order_status">
                           @foreach($orderStatus as $status)
                             <option value="{{ $status['name'] }}" @if(isset($orderDetails['order_status']) && $orderDetails['order_status']==$status['name']) selected="" @endif>{{ $status['name'] }}</option>
                           @endforeach
                         </select>&nbsp;&nbsp;
+                        <input style="width: 120px" type="text" name="courier_name" @if(empty($orderDetails['courier_name'])) id="courier_name" @endif placeholder="Courier Name" value="{{ $orderDetails['courier_name'] }}">
+                        <input style="width: 120px" type="text" name="tracking_number" @if(empty($orderDetails['tracking_number'])) id="tracking_number" @endif placeholder="Tracking Number" value="{{ $orderDetails['tracking_number'] }}">
                         <button type="submit" >Update</button>
                         </form>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2">
+                        @foreach($orderLog as $log)
+                          <strong>{{ $log['order_status'] }}</strong><br>
+                          {{ date('j F, Y, g:i:a', strtotime($log['created_at'])) }}<br>
+                          <hr>
+                        @endforeach
                       </td>
                     </tr>
                   </tbody>
