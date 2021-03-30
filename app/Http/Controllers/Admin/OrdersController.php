@@ -25,7 +25,6 @@ class OrdersController extends Controller
 	public function orderDetails($id)
 	{
 		$orderDetails = Order::with('orders_product')->where('id',$id)->orderBy('id','DESC')->first()->toArray();
-		//dd($orderDetails);
 
 		$orderStatus = OrderStatus::where('status',1)->get()->toArray();
 		$userDetails = User::where('id', $orderDetails['user_id'])->first()->toArray();
@@ -76,6 +75,14 @@ class OrdersController extends Controller
 
 			return redirect()->back();
 		}
+	}
+
+	public function viewOrderInvoice($id)
+	{
+		$orderDetails = Order::with('orders_product')->where('id',$id)->orderBy('id','DESC')->first()->toArray();
+		$userDetails = User::where('id', $orderDetails['user_id'])->first()->toArray();
+
+		return view('admin.orders.order_invoice')->with(compact('orderDetails','userDetails'));
 	}
 
 }

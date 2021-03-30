@@ -72,6 +72,10 @@
                     <td>{{ $order['payment_method'] }}</td>
                     <td style="width: 120px;">
                       <a title="View Order Details" href="{{ url('admin/orders/'.$order['id']) }}"><i class="fas fa-file"></i></a>
+                      &nbsp;&nbsp;
+                      @if( $order['order_status'] == "Shippen" || $order['order_status'] == "Delivered")
+                      <a title="View Order Invoice" href="{{ url('admin/view-order-invoice/'.$order['id']) }}"><i class="fas fa-print"></i></a>
+                      @endif
                     </td>
                   </tr>
                   @endforeach  
