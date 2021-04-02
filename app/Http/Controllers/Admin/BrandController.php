@@ -47,11 +47,12 @@ class BrandController extends Controller
 
          //validation customize
             $rule = [
-                'brand_name' => 'required'
+                'brand_name' => 'required|string'
             ];
 
             $customMessages = [
                 'brand_name.required' => 'Brand Name is required',
+                'brand_name.string' => 'Brand Name must be string',
             ];
 
             $this->validate($request, $rule, $customMessages);
@@ -104,11 +105,12 @@ class BrandController extends Controller
 
          //validation customize
             $rule = [
-                'brand_name' => 'required'
+                'brand_name' => 'required|string'
             ];
 
             $customMessages = [
                 'brand_name.required' => 'Brand Name is required',
+                'brand_name.string' => 'Brand Name must be string',
             ];
 
             $this->validate($request, $rule, $customMessages);

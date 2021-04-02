@@ -53,7 +53,7 @@ class CategoryController extends Controller
 
             //validation customize
             $rule = [
-                'category_name' => 'required',
+                'category_name' => 'required|string',
                 'section_id' => 'required',
                 'url' => 'required',
                 'image' => 'image|mimes:jpeg,png,jpg,gif,svg,webp'
@@ -61,6 +61,7 @@ class CategoryController extends Controller
 
             $customMessages = [
                 'category_name.required' => 'Category Name is required',
+                'category_name.string' => 'Category Name must be string',
                 'section_id.required' => 'Section is reduired',
                 'url.required' => 'Category URL is required',
                 'image.image' => 'Valid Image is required',
@@ -177,7 +178,7 @@ class CategoryController extends Controller
 
             //validation customize
             $rule = [
-                'category_name' => 'required',
+                'category_name' => 'required|string',
                 'section_id' => 'required',
                 'url' => 'required',
                 'image' => 'image|mimes:jpeg,png,jpg,gif,svg,webp'
@@ -185,6 +186,7 @@ class CategoryController extends Controller
 
             $customMessages = [
                 'category_name.required' => 'Category Name is required',
+                'category_name.string' => 'Category Name must be string',
                 'section_id.required' => 'Section is reduired',
                 'url.required' => 'Category URL is required',
                 'image.image' => 'Valid Image is required',
