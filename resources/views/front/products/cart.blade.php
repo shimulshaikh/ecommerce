@@ -18,6 +18,7 @@
 				          <span aria-hidden="true">&times;</span>
 				        </button>
 				      </div>
+				      @php Session::forget('error') @endphp
 				    @endif
 				    @if(Session::has('success'))
 		                <div class="alert alert-success" role="alert">
@@ -26,6 +27,7 @@
 		                    <span aria-hidden="true">&times;</span>
 		                  </button>
 		                </div>
+		                @php Session::forget('success') @endphp
 		            @endif	
 	
 	<div id="AppendCartItems">		

@@ -59,7 +59,7 @@
 	                  <th>Product</th>
 	                  <th colspan="2">Description</th>
 	                  <th>Quantity</th>
-					  <th>MRP</th>
+					  <th>Price</th>
 	                  <th>Category/Product <br/>Discount</th>
 	                  <th>Sub Total</th>
 					</tr>
@@ -76,8 +76,8 @@
 	                  	Size : {{$item['size']}}
 	                  </td>
 					  <td>{{$item['quantity']}}</td>
-	                  <td>Rs.{{$attrPrice['product_price']}}</td>
-	                  <td>Rs.{{$attrPrice['discount']}}</td>
+	                  <td>Rs.{{$attrPrice['product_price']*$item['quantity']}}</td>
+	                  <td>Rs.{{$attrPrice['discount']*$item['quantity']}}</td>
 	                  <td>Rs.{{$attrPrice['discount_price']*$item['quantity']}}</td>
 	                </tr>
 	                <?php $total_price=$total_price+ ($attrPrice['discount_price']*$item['quantity'])?>

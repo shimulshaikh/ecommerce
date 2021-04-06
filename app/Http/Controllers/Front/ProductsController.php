@@ -532,8 +532,18 @@ class ProductsController extends Controller
                 echo "Prepaid Method Comming soon....."; die;
              }
 
+             echo "Order Placed"; die;
         }
+
         $userCartItems = Cart::userCartItems();
+
+        if (count($userCartItems)==0) {
+            // $message = 'Shopping cart is empty! Please add products to checkout.';
+            // Session::get('error', $message);
+            Session::flash('error', 'Shopping cart is empty! Please add products to checkout.');
+            return redirect('cart');
+        }
+
         $deliveryAddresse = DeliveryAddress::deliveryAddresses();
         return view('front.products.checkout')->with(compact('userCartItems','deliveryAddresse'));
     }

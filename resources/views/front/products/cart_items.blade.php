@@ -33,8 +33,8 @@
 							<button class="btn btn-danger btnItemDelete" type="button" data-cartid="{{$item['id']}}"><i class="icon-remove icon-white"></i></button>				
 						</div>
 					  </td>
-	                  <td>Rs.{{$attrPrice['product_price']}}</td>
-	                  <td>Rs.{{$attrPrice['discount']}}</td>
+	                  <td>Rs.{{$attrPrice['product_price']*$item['quantity']}}</td>
+	                  <td>Rs.{{$attrPrice['discount']*$item['quantity']}}</td>
 	                  <td>Rs.{{$attrPrice['discount_price']*$item['quantity']}}</td>
 	                </tr>
 	                <?php $total_price=$total_price+ ($attrPrice['discount_price']*$item['quantity'])?>
