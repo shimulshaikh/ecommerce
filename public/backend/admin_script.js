@@ -145,15 +145,15 @@ $(document).ready(function(){
 			url : '/admin/update-attribute-status',
 			data : {status:status, attribute_id:attribute_id},
 			success:function(resp){
-				// alert(resp['status']);
+				//alert(resp['status']);
 				// alert(resp['attribute_id']);
 				if(resp['status']==0){
-					$("#attribute-"+attribute_id).html("<a class='updateAttributesStatus' href='javascript:void(0)'>Inactive</a>");
+					$("#attribute-"+attribute_id).html("<a id='attribute-{{ attribute_id }}' attribute_id='{{ attribute_id }}' class='updateAttributesStatus' href='javascript:void(0)'>Inactive</a>");
 				}else if(resp['status']==1){
-					$("#attribute-"+attribute_id).html("<a class='updateAttributesStatus' href='javascript:void(0)'>Active</a>");	
+					$("#attribute-"+attribute_id).html("<a id='attribute-{{ attribute_id }}' attribute_id='{{ attribute_id }}' class='updateAttributesStatus' href='javascript:void(0)'>Active</a>");	
 				}
-			},error:function(){
-				alert('Error');
+			},error:function(e){
+				alert(e);
 			}
 		});
 	});
@@ -172,9 +172,9 @@ $(document).ready(function(){
 				// alert(resp['status']);
 				// alert(resp['images_id']);
 				if(resp['status']==0){
-					$("#images-"+images_id).html("<a class='updateImageStatus' href='javascript:void(0)'>Inactive</a>");
+					$("#images-"+images_id).html("<a id='images-{{ images_id }}' images_id='{{ images_id }}' class='updateImageStatus' href='javascript:void(0)'>Inactive</a>");
 				}else if(resp['status']==1){
-					$("#images-"+images_id).html("<a class='updateImageStatus' href='javascript:void(0)'>Active</a>");	
+					$("#images-"+images_id).html("<a id='images-{{ images_id }}' images_id='{{ images_id }}' class='updateImageStatus' href='javascript:void(0)'>Active</a>");	
 				}
 			},error:function(){
 				alert('Error');

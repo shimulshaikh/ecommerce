@@ -14,8 +14,8 @@ class UpdateOrdersTableTable extends Migration
     public function up()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->string('courier_name')->after('grand_total');
-            $table->string('tracking_number')->after('courier_name');
+            $table->string('courier_name')->nullable()->after('grand_total');
+            $table->string('tracking_number')->nullable()->after('courier_name');
         });
     }
 
