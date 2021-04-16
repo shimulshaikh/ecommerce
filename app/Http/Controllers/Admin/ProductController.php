@@ -744,7 +744,7 @@ class ProductController extends Controller
             else{
                 $status = 1;   
             }
-            ProductsAttribute::where('id', $data['images_id'])->update(['status'=>$status]);
+            ProductsImage::where('id', $data['images_id'])->update(['status'=>$status]);
             return response()->json(['status'=>$status, 'images_id'=>$data['images_id']]);
         } 
     }
