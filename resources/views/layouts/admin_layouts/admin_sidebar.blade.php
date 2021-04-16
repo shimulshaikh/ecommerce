@@ -96,7 +96,7 @@
 
           <!-- catalogues -->
           <li class="nav-item menu-open">
-            @if(Session::get('page')== "sections" || Session::get('page')== "barnds" || Session::get('page')== "categories" || Session::get('page')== "products" || Session::get('page')== "banners" || Session::get('page')== "orders")
+            @if(Session::get('page')== "sections" || Session::get('page')== "barnds" || Session::get('page')== "categories" || Session::get('page')== "products" || Session::get('page')== "banners" || Session::get('page')== "coupons" || Session::get('page')== "orders")
               <?php $active = "active"?>
             @else  
               <?php $active = ""?>

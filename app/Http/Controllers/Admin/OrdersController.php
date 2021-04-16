@@ -10,6 +10,7 @@ use App\OrderStatus;
 use App\OrdersLog;
 use Session;
 use Mail;
+use Dompdf\Dompdf;
 
 class OrdersController extends Controller
 {
@@ -85,5 +86,21 @@ class OrdersController extends Controller
 		return view('admin.orders.order_invoice')->with(compact('orderDetails','userDetails'));
 	}
 
+	public function printPDFInvoice($id)
+	{
+		$output = "<html>generate the pdf</html>";
+
+		$dompdf = new Dompdf();
+		$dompdf->loadHtml($output);
+
+		// (Optional) Setup the paper size and orientation
+		$dompdf->setPaper('A4', 'landscape');
+
+		// Render the HTML as PDF
+		$dompdf->render();
+
+		// Output the generated PDF to Browser
+		$dompdf->stream();
+	}
 }
 
