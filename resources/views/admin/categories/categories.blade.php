@@ -77,7 +77,7 @@
                     <td>  
                       <a title="Edit" href="{{route('category.edit', $category->id)}}"><i class="fas fa-edit"></i></a>
                       &nbsp;&nbsp;
-                      <a title="Delete" onclick="return confirm('Are You sure want to delete !')" href="{{route('category.destroy', $category->id)}}"><i class="fas fa-trash"></i></a>
+                      <a title="Delete" record="category" record_id="{{$category->id}}" class="confirmDelete" href="javascript:void(0)"><i class="fas fa-trash"></i></a>
                     </td>
                   </tr>
                   @endforeach  

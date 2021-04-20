@@ -286,4 +286,30 @@ $(document).ready(function(){
     	}
     });
 
+    //confirm delete with sweet alert
+    $(document).on("click",".confirmDelete",function(){	
+    	let record = $(this).attr("record");
+    	let record_id = $(this).attr("record_id");
+    	//alert(name);
+    	Swal.fire({
+		  title: 'Are you sure?',
+		  text: "You won't be able to revert this!",
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Yes, delete it!'
+		}).then((result) => {
+		  if (result.isConfirmed) {
+		    Swal.fire(
+		      'Deleted!',
+		      'Your file has been deleted.',
+		      'success'
+		    )
+		    window.location.href="delete-"+record+"/"+record_id;
+		  }
+		});
+		return false;
+    });
+
 });
