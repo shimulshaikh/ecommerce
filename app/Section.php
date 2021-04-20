@@ -6,6 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Section extends Model
 { 
+	protected $guard = 'sections';
+
+    protected $fillable = [
+    	'name', 'status'
+    ];
+    
 	public function categories()
 	{
 		return $this->hasMany('App\Category','section_id')->where(['parent_id'=>'Root','status'=>1])->with('subcategories');

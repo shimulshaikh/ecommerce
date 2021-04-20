@@ -10,6 +10,12 @@ class DeliveryAddress extends Model
 {
     use HasFactory;
 
+    protected $guard = 'delivery_addresses';
+
+    protected $fillable = [
+        'user_id', 'name', 'address', 'city', 'state', 'country', 'pincode','mobile','status'
+    ];
+
     public static  function deliveryAddresses()
     {
     	$user_id = Auth::user()->id;

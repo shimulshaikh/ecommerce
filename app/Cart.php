@@ -11,6 +11,14 @@ class Cart extends Model
 {
     use HasFactory;
 
+    protected $guard = 'carts';
+
+    protected $fillable = [
+        'session_id', 'user_id', 'product_id', 'size', 'quantity'
+    ];
+
+    
+
     public static function userCartItems()
     {
     	if(Auth::user()){

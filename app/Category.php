@@ -6,6 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
+
+    protected $guard = 'categories';
+
+    protected $fillable = [
+        'parent_id', 'section_id', 'category_name', 'category_image', 'category_discount', 'description', 'url','meta_title','meta_description','meta_keywords','status'
+    ];
+
+
 	//For start only Categories 
     public function subcategories()
     {
