@@ -72,7 +72,7 @@
                     <td>
                       <a title="Edit" href="{{route('banner.edit', $banner->id)}}"><i class="fas fa-edit"></i></a>
                       &nbsp;
-                      <a title="Delete" onclick="return confirm('Are You sure want to delete !')" href="{{route('banner.destroy', $banner->id)}}"><i class="fas fa-trash"></i></a>
+                      <a title="Delete" record="banner" record_id="{{$banner->id}}" class="confirmDelete" href="javascript:void(0)"><i class="fas fa-trash"></i></a>
                       &nbsp;
                     	@if($banner->status == 1) 
                     		<a class="updateBannerStatus" id="banner-{{ $banner->id }}" banner_id="{{ $banner->id }}" href="javascript:void(0)"><i class="fas fa-toggle-on" aria-hidden="true" status="Active"></i></a>

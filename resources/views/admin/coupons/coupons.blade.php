@@ -73,7 +73,7 @@
                     <td>
                       <a title="Edit" href="{{url('admin/add-edit-coupon/'.$coupon['id'])}}"><i class="fas fa-edit"></i></a>
                       &nbsp;
-                      <a title="Delete" onclick="return confirm('Are You sure want to delete !')" href="{{url('admin/delete-coupon/'.$coupon['id'])}}"><i class="fas fa-trash"></i></a>
+                      <a title="Delete" record="coupon" record_id="{{$coupon['id']}}" class="confirmDelete" href="javascript:void(0)"><i class="fas fa-trash"></i></a>
                       &nbsp;
                     	@if($coupon['status'] == 1) 
                     		<a class="updateCouponStatus" id="coupon-{{ $coupon['id'] }}" coupon_id="{{ $coupon['id'] }}" href="javascript:void(0)"><i class="fas fa-toggle-on" aria-hidden="true" status="Active"></i></a>

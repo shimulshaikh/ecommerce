@@ -17,6 +17,8 @@
 	<link href="{{asset('frontend/themes/css/font-awesome.css')}}" rel="stylesheet" type="text/css">
 	<!-- Google-code-prettify -->
 	<link href="{{asset('frontend/themes/js/google-code-prettify/prettify.css')}}" rel="stylesheet"/>
+	<!-- sweet alert -->
+ 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.16.0/sweetalert2.min.css"/>
 	<!-- fav and touch icons -->
 	<link rel="shortcut icon" href="{{asset('frontend/themes/images/ico/favicon.ico')}}">
 	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{asset('frontend/themes/images/ico/apple-touch-icon-144-precomposed.png')}}">
@@ -59,6 +61,8 @@
 
 <script src="{{asset('frontend/themes/js/front.js')}}"></script>
 <script src="{{asset('frontend/themes/js/jquery.lightbox-0.5.js')}}"></script>
+<!-- Sweet alert -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.16.0/sweetalert2.min.js"></script>
 <script src="{{asset('frontend/front_script.js')}}"></script>
 
 </body>
