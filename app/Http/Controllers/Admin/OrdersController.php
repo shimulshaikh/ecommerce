@@ -101,6 +101,7 @@ class OrdersController extends Controller
 
 		// Output the generated PDF to Browser
 		$dompdf->stream();
+		return true;
 	}
 }
 

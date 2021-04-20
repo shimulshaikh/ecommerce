@@ -65,7 +65,7 @@
                 </div>
 
                 <div id="appendCategorisLevel">
-                  @include('admin.categories.edit_append_categoris_level')
+                  @include('admin.categories.append_categoris_level')
                 </div>
 
               </div>

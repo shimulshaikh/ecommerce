@@ -156,10 +156,10 @@ class CategoryController extends Controller
         $categories = Category::findorFail($id);
         // $categories = json_decode(json_encode($categories),true);
         // echo "<pre>"; print_r($categories); die;
-        $getCategory = Category::with('subcategories')->where(['parent_id'=>0, 'section_id'=>$categories['section_id']])->get();
-        // $getCategory = json_decode(json_encode($getCategory),true);
-        // echo "<pre>"; print_r($getCategory); die;
-        return view('admin.categories.edit_category')->with(compact('sections','categories','getCategory'));
+        $getCategories = Category::with('subcategories')->where(['parent_id'=>0, 'section_id'=>$categories['section_id']])->get();
+        // $getCategories = json_decode(json_encode($getCategories),true);
+        // echo "<pre>"; print_r($getCategories); die;
+        return view('admin.categories.edit_category')->with(compact('sections','categories','getCategories'));
     }
 
     /**
@@ -306,8 +306,9 @@ class CategoryController extends Controller
             $data = $request->all();
             // echo "<pre>"; print_r($data); die;
             $getCategories = Category::with('subcategories')->where(['section_id'=> $data['section_id'], 'parent_id'=>0, 'status'=>1])->get();
+             
             $getCategories = json_decode(json_encode($getCategories),true);
-            // echo "<pre>"; print_r($getCategories); die;
+              //echo "<pre>"; print_r($getCategories); die;
             return view('admin.categories.append_categoris_level')->with(compact('getCategories'));
         }
     }
