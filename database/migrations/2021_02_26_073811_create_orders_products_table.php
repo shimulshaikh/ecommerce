@@ -15,8 +15,8 @@ class CreateOrdersProductsTable extends Migration
     {
         Schema::create('orders_products', function (Blueprint $table) {
             $table->id();
-            $table->integer('order_id');
-            $table->integer('user_id');
+            $table->bigInteger('order_id')->unsigned()->index();
+            $table->bigInteger('user_id')->unsigned()->index();
             $table->integer('product_id');
             $table->string('product_code');
             $table->string('product_name');
@@ -25,6 +25,9 @@ class CreateOrdersProductsTable extends Migration
             $table->float('product_price');
             $table->integer('product_qty');
             $table->timestamps();
+
+            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

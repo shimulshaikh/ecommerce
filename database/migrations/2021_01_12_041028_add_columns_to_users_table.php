@@ -13,15 +13,31 @@ class AddColumnsToUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('address')->after('name');
-            $table->string('city')->after('address');
-            $table->string('state')->after('city');
-            $table->string('country')->after('state');
-            $table->string('pincode')->after('country');
-            $table->string('mobile')->after('pincode');
-            $table->tinyInteger('status')->after('password')->default(1);
-        });
+        if (Schema::hasTable('users')) {
+            Schema::table('users', function (Blueprint $table) {
+                if (!Schema::hasColumn('users', 'address')) {
+                    $table->string('address')->after('name');
+                }
+                if (!Schema::hasColumn('users', 'city')) {
+                    $table->string('city')->after('address');
+                }
+                if (!Schema::hasColumn('users', 'state')) {
+                    $table->string('state')->after('city');
+                }
+                if (!Schema::hasColumn('users', 'country')) {
+                    $table->string('country')->after('state');
+                }
+                if (!Schema::hasColumn('users', 'pincode')) {
+                    $table->string('pincode')->after('country');
+                }
+                if (!Schema::hasColumn('users', 'mobile')) {
+                    $table->string('mobile')->after('pincode');
+                }
+                if (!Schema::hasColumn('users', 'status')) {
+                    $table->tinyInteger('status')->after('password')->default(1);
+                }
+            });
+        }
     }
 
     /**

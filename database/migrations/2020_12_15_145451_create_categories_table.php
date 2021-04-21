@@ -15,8 +15,8 @@ class CreateCategoriesTable extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->integer('parent_id');
-            $table->integer('section_id');
+            $table->bigInteger('parent_id')->unsigned()->index();
+            $table->bigInteger('section_id')->unsigned()->index();
             $table->string('category_name');
             $table->string('category_image');
             $table->float('category_discount');
@@ -25,8 +25,11 @@ class CreateCategoriesTable extends Migration
             $table->string('meta_title');
             $table->string('meta_description');
             $table->string('meta_keywords');
-            $table->tinyInteger('status');
+            $table->tinyInteger('status')->default(1);
             $table->timestamps();
+
+            $table->foreign('parent_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('section_id')->references('id')->on('sections')->onDelete('cascade');
         });
     }
 

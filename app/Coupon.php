@@ -9,7 +9,7 @@ class Coupon extends Model
 {
     use HasFactory;
 
-    protected $guard = 'coupons';
+    protected $table = 'coupons';
 
     protected $fillable = [
         'coupon_option', 'coupon_code', 'categories', 'users', 'coupon_type', 'amount_type', 'amount','expiry_date','status'

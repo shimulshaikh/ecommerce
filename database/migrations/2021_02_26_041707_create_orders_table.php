@@ -15,7 +15,7 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
+            $table->bigInteger('user_id')->unsigned()->index();
             $table->string('name');
             $table->string('address');
             $table->string('city');
@@ -32,6 +32,8 @@ class CreateOrdersTable extends Migration
             $table->string('payment_gateway');
             $table->float('grand_total');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

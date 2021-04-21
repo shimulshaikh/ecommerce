@@ -35,7 +35,7 @@ class AdminController extends Controller
     	//echo $password = Hash::make('123456'); die;
     	if ($request->isMethod('post')) {
     		$data = $request->all();
-    		//dd($data);
+    	    // dd($data);
 
     		//validation customize
     		$rule = [
@@ -51,7 +51,6 @@ class AdminController extends Controller
 
     		$this->validate($request, $rule, $customMessages);
     		//end validation customize
-
 
     		if(Auth::guard('admin')->attempt(['email'=>$data['email'], 'password'=>$data['password']])){
     			return redirect('admin/dashboard');

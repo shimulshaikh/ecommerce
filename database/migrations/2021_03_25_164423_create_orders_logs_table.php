@@ -15,9 +15,11 @@ class CreateOrdersLogsTable extends Migration
     {
         Schema::create('orders_logs', function (Blueprint $table) {
             $table->id();
-            $table->integer('order_id');
+            $table->bigInteger('order_id')->unsigned()->index();
             $table->string('order_status');
             $table->timestamps();
+
+            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
         });
     }
 

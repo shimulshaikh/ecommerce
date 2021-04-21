@@ -9,7 +9,7 @@ class OrderStatus extends Model
 {
     use HasFactory;
 
-    protected $guard = 'order_statuses';
+    protected $table = 'order_statuses';
 
     protected $fillable = [
     	'name', 'status'

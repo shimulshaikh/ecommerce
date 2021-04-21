@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Section extends Model
 { 
-	protected $guard = 'sections';
+	protected $table = 'sections';
 
     protected $fillable = [
     	'name', 'status'

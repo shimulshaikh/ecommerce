@@ -15,8 +15,8 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->integer('category_id');
-            $table->integer('section_id');
+            $table->bigInteger('category_id')->unsigned()->index();
+            $table->bigInteger('section_id')->unsigned()->index();
             $table->string('product_name');
             $table->string('product_code');
             $table->string('product_color');
@@ -38,6 +38,9 @@ class CreateProductsTable extends Migration
             $table->enum('is_featured',['No','Yes']);
             $table->tinyInteger('status');
             $table->timestamps();
+
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('section_id')->references('id')->on('sections')->onDelete('cascade');
         });
     }
 

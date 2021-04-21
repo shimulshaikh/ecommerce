@@ -15,7 +15,7 @@ class CreateDeliveryAddressesTable extends Migration
     {
         Schema::create('delivery_addresses', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
+            $table->bigInteger('user_id')->unsigned()->index();
             $table->string('name');
             $table->string('address');
             $table->string('city');
@@ -25,6 +25,8 @@ class CreateDeliveryAddressesTable extends Migration
             $table->string('mobile');
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

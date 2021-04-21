@@ -13,10 +13,16 @@ class UpdateOrdersTableTable extends Migration
      */
     public function up()
     {
-        Schema::table('orders', function (Blueprint $table) {
-            $table->string('courier_name')->nullable()->after('grand_total');
-            $table->string('tracking_number')->nullable()->after('courier_name');
-        });
+        if (Schema::hasTable('orders')) {
+            Schema::table('orders', function (Blueprint $table) {
+                if (!Schema::hasColumn('orders', 'courier_name')) {
+                    $table->string('courier_name')->nullable()->after('grand_total');
+                }
+                if (!Schema::hasColumn('orders', 'tracking_number')) {
+                    $table->string('tracking_number')->nullable()->after('courier_name');
+                }    
+            });
+        }
     }
 
     /**

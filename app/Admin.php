@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Admin extends Authenticatable
 {
     use Notifiable;
-    protected $guard = 'admin';
+    protected $table = 'admins';
 
     protected $fillable = [
     	'name', 'type', 'mobile', 'email', 'password', 'image', 'status'

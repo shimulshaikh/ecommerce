@@ -10,7 +10,7 @@ class DeliveryAddress extends Model
 {
     use HasFactory;
 
-    protected $guard = 'delivery_addresses';
+    protected $table = 'delivery_addresses';
 
     protected $fillable = [
         'user_id', 'name', 'address', 'city', 'state', 'country', 'pincode','mobile','status'
