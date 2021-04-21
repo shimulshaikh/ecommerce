@@ -429,7 +429,7 @@ class ProductsController extends Controller
     {
         if ($request->isMethod('post')) {
             $data = $request->all();
-
+            
             if (empty($data['address_id'])) {
                 $message = "Please select Delivery Address";
                 session::flash('error', $message);

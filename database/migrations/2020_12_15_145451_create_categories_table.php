@@ -15,7 +15,7 @@ class CreateCategoriesTable extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('parent_id')->unsigned()->index();
+            $table->integer('parent_id');
             $table->bigInteger('section_id')->unsigned()->index();
             $table->string('category_name');
             $table->string('category_image');
@@ -28,7 +28,6 @@ class CreateCategoriesTable extends Migration
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
 
-            $table->foreign('parent_id')->references('id')->on('categories')->onDelete('cascade');
             $table->foreign('section_id')->references('id')->on('sections')->onDelete('cascade');
         });
     }

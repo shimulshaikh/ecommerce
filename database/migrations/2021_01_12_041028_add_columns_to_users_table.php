@@ -16,22 +16,22 @@ class AddColumnsToUsersTable extends Migration
         if (Schema::hasTable('users')) {
             Schema::table('users', function (Blueprint $table) {
                 if (!Schema::hasColumn('users', 'address')) {
-                    $table->string('address')->after('name');
+                    $table->string('address')->nullable()->after('name');
                 }
                 if (!Schema::hasColumn('users', 'city')) {
-                    $table->string('city')->after('address');
+                    $table->string('city')->nullable()->after('address');
                 }
                 if (!Schema::hasColumn('users', 'state')) {
-                    $table->string('state')->after('city');
+                    $table->string('state')->nullable()->after('city');
                 }
                 if (!Schema::hasColumn('users', 'country')) {
-                    $table->string('country')->after('state');
+                    $table->string('country')->nullable()->after('state');
                 }
                 if (!Schema::hasColumn('users', 'pincode')) {
-                    $table->string('pincode')->after('country');
+                    $table->string('pincode')->nullable()->after('country');
                 }
                 if (!Schema::hasColumn('users', 'mobile')) {
-                    $table->string('mobile')->after('pincode');
+                    $table->string('mobile')->nullable()->after('pincode');
                 }
                 if (!Schema::hasColumn('users', 'status')) {
                     $table->tinyInteger('status')->after('password')->default(1);
