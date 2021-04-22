@@ -61,7 +61,7 @@
               <?php $active = ""?>
             @endif
             <a href="#" class="nav-link {{ $active }}">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-cog"></i>
               <p>
                 Seetings
                 <i class="right fas fa-angle-left"></i>
@@ -102,7 +102,7 @@
               <?php $active = ""?>
             @endif
             <a href="#" class="nav-link {{ $active }}">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-list-alt"></i>
               <p>
                 Catalogues
                 <i class="right fas fa-angle-left"></i>
