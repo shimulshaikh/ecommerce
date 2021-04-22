@@ -13,7 +13,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Brands</li>
+              <li class="breadcrumb-item active">Shipping Charges</li>
             </ol>
           </div>
         </div>
@@ -25,48 +25,49 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-12">
-
-            @if(Session::has('success'))
+            
+              @if(Session::has('success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 10px;">
                   {{ Session::get('success') }}
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
-            @endif
-            
-            <!-- /.card -->
+              @endif
 
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Brnds</h3>
-                <a href="{{route('brand.create')}}" style="max-width: 150px; float: right; display: inline-block;" class="btn btn-block btn-success">Add Brand</a>
+                <h3 class="card-title">Shipping Charges</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <table id="brands" class="table table-bordered table-striped">
+                <table id="shipping_charges" class="table table-bordered table-striped">
                   <thead>
                   <tr>
-                    <th>Id</th>
-                    <th>Name</th>
-                    <th>Actions</th>
+                    <th>Order Id</th>
+                    <th>Country</th>
+                    <th>Shipping Charges</th>
+                    <th>Status</th>
+                    <th>Update at</th>
+                    <th>Action</th>
                   </tr>
                   </thead>
                   <tbody>
-                  @foreach($barnds as $brand)	
+                  @foreach($shipping_charges as $shipping)	 
                   <tr>
-                    <td>{{ $brand->id }}</td>
-                    <td>{{ $brand->name }}</td>
+                    <td>{{ $shipping['id'] }}</td>
+                    <td>{{ $shipping['country'] }}</td>
+                    <td>{{ $shipping['shipping_charges'] }}</td>
                     <td>
-                      <a title="Edit" href="{{route('brand.edit', $brand->id)}}"><i class="fas fa-edit"></i></a>
-                      &nbsp;
-                      <a title="Delete" onclick="return confirm('Are You sure want to delete !')" href="{{route('brand.destroy', $brand->id)}}"><i class="fas fa-trash"></i></a>
-                      &nbsp;
-                    	@if($brand->status == 1) 
-                    		<a class="updateBrandStatus" id="brand-{{ $brand->id }}" brand_id="{{ $brand->id }}" href="javascript:void(0)"><i class="fas fa-toggle-on" aria-hidden="true" status="Active"></i></a>
+                    	@if($shipping['status'] == 1) 
+                    		<a class="updateShippingStatus" id="shipping-{{ $shipping['id'] }}" product_id="{{ $shipping['id'] }}" href="javascript:void(0)"><i class="fas fa-toggle-on" aria-hidden="true" status="Active"></i></a>
                     	@else
-                    		<a class="updateBrandStatus" id="brand-{{ $brand->id }}" brand_id="{{ $brand->id }}" href="javascript:void(0)"><i class="fa fa-toggle-off" aria-hidden="true" status="Inactive"></i></a>
+                    		<a class="updateProductStatus" id="shipping-{{ $shipping['id'] }}" product_id="{{ $shipping['id'] }}" href="javascript:void(0)"><i class="fa fa-toggle-off" aria-hidden="true" status="Inactive"></i></a>
                     	@endif		
+                    </td>
+                    <td>{{ date('d-m-Y', strtotime($shipping['updated_at'])) }}</td>
+                    <td>
+                    	<a title="Update Shipping Charges" href=""><i class="fas fa-edit"></i></a>
                     </td>
                   </tr>
                   @endforeach  

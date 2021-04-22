@@ -59,6 +59,8 @@ class ProductController extends Controller
         $occasionArray = $productFilters['occasionArray'];
 
         $categories = Section::with('categories')->get();
+        // $categories = json_decode(json_encode($categories),true);
+        // echo "<pre>"; print_r($categories); die;
 
         //get all brand
         $brands = Brand::where('status',1)->get();

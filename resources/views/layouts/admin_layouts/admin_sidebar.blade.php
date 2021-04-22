@@ -96,7 +96,7 @@
 
           <!-- catalogues -->
           <li class="nav-item menu-open">
-            @if(Session::get('page')== "sections" || Session::get('page')== "barnds" || Session::get('page')== "categories" || Session::get('page')== "products" || Session::get('page')== "banners" || Session::get('page')== "coupons" || Session::get('page')== "orders")
+            @if(Session::get('page')== "sections" || Session::get('page')== "barnds" || Session::get('page')== "categories" || Session::get('page')== "products" || Session::get('page')== "banners" || Session::get('page')== "coupons" || Session::get('page')== "orders" || Session::get('page')== "shipping-charges")
               <?php $active = "active"?>
             @else  
               <?php $active = ""?>
@@ -186,6 +186,18 @@
                 <a href="{{ route('orders') }}" class="nav-link {{ $active }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Orders</p>
+                </a>
+              </li>
+
+              @if(Session::get('page')== "shipping-charges")
+                <?php $active = "active"?>
+              @else  
+                <?php $active = ""?>
+              @endif
+              <li class="nav-item">
+                <a href="{{ route('shipping-charges') }}" class="nav-link {{ $active }}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Shipping Charges</p>
                 </a>
               </li>
 

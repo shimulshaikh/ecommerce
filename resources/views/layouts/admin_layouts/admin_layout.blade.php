@@ -94,6 +94,9 @@
     $("#orders").DataTable({
       "responsive": true,
     });
+    $("#shipping_charges").DataTable({
+      "responsive": true,
+    });
   });
 </script>
 

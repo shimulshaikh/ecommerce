@@ -83,7 +83,10 @@ Route::prefix('/admin')->namespace('Admin')->group(function() {
 		Route::get('orders/{id}', 'OrdersController@orderDetails');	
 		Route::post('update-order-status', 'OrdersController@updateOrderStatus');
 		Route::get('view-order-invoice/{id}', 'OrdersController@viewOrderInvoice');	
-		Route::get('print-pdf-invoice/{id}', 'OrdersController@printPDFInvoice');	
+		Route::get('print-pdf-invoice/{id}', 'OrdersController@printPDFInvoice');
+
+		//shipping charges
+		Route::get('shipping-charges', 'ShippingController@index')->name('shipping-charges');	
 
 	});
 	
