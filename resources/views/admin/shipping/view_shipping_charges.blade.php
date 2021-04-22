@@ -60,9 +60,9 @@
                     <td>{{ $shipping['shipping_charges'] }}</td>
                     <td>
                     	@if($shipping['status'] == 1) 
-                    		<a class="updateShippingStatus" id="shipping-{{ $shipping['id'] }}" product_id="{{ $shipping['id'] }}" href="javascript:void(0)"><i class="fas fa-toggle-on" aria-hidden="true" status="Active"></i></a>
+                    		<a class="updateShippingStatus" id="shipping-{{ $shipping['id'] }}" shipping_id="{{ $shipping['id'] }}" href="javascript:void(0)"><i class="fas fa-toggle-on" aria-hidden="true" status="Active"></i></a>
                     	@else
-                    		<a class="updateProductStatus" id="shipping-{{ $shipping['id'] }}" product_id="{{ $shipping['id'] }}" href="javascript:void(0)"><i class="fa fa-toggle-off" aria-hidden="true" status="Inactive"></i></a>
+                    		<a class="updateShippingStatus" id="shipping-{{ $shipping['id'] }}" shipping_id="{{ $shipping['id'] }}" href="javascript:void(0)"><i class="fa fa-toggle-off" aria-hidden="true" status="Inactive"></i></a>
                     	@endif		
                     </td>
                     <td>{{ date('d-m-Y', strtotime($shipping['updated_at'])) }}</td>
