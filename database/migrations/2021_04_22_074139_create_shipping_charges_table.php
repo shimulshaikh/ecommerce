@@ -17,7 +17,7 @@ class CreateShippingChargesTable extends Migration
             $table->id();
             $table->string('country');
             $table->float('shipping_charges');
-            $table->tinyInteger('status');
+            $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });
     }

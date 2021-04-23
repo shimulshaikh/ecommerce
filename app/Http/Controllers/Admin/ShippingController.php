@@ -35,4 +35,20 @@ class ShippingController extends Controller
         }
     }
 
+    public function editShipping($id, Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $data = $request->all();
+            
+            ShippingCharge::where('id', $id)->update(['shipping_charges'=>$data['shipping_charges']]);
+
+            Session::flash('success', 'Shipping Charges Updated Successfully');
+            return redirect()->back();
+        }
+
+        $ShippingCharges = ShippingCharge::find($id)->toArray();
+
+        return view('admin.shipping.edit_shipping_charges')->with(compact('ShippingCharges'));
+    }
+
 }

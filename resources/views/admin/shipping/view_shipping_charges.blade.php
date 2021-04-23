@@ -67,7 +67,7 @@
                     </td>
                     <td>{{ date('d-m-Y', strtotime($shipping['updated_at'])) }}</td>
                     <td>
-                    	<a title="Update Shipping Charges" href=""><i class="fas fa-edit"></i></a>
+                    	<a title="Update Shipping Charges" href="{{ url('admin/edit-shipping-charges/'.$shipping['id']) }}"><i class="fas fa-edit"></i></a>
                     </td>
                   </tr>
                   @endforeach  
