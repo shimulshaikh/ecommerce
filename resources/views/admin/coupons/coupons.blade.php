@@ -66,7 +66,7 @@
                       @if($coupon['amount_type'] == "Percentage")
                       %
                       @else
-                      INR
+                      TK
                       @endif
                     </td>
                     <td>{{ $coupon['expiry_date'] }}</td>

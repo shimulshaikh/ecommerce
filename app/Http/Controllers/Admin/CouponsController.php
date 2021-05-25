@@ -4,10 +4,15 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\CouponSendUser;
 use App\Coupon;
 use App\User;
 use App\Section;
+use App\Category;
 use Session;
+use Mail;
+use Carbon\Carbon;
 
 class CouponsController extends Controller
 {
@@ -67,11 +72,13 @@ class CouponsController extends Controller
                 'coupon_type' => 'required',
                 'amount_type' => 'required',
                 'amount' => 'required',
+                'users' => 'required',
                 'expiry_date' => 'required'
             ];
 
             $customMessages = [
                 'categories.required' => 'Select Category',
+                'users.required' => 'Select users',
                 'coupon_option.required' => 'Select Coupon Option',
                 'coupon_type.required' => 'Select Coupon Type',
                 'amount_type.required' => 'Select Amount Type',
@@ -88,15 +95,15 @@ class CouponsController extends Controller
     			$users ="";
     		}
 
-    		if (isset($data['categories'])) {
-    			$categories =implode(',', $data['categories']);
-    		}
+            if ($data['coupon_option']=="Automatic") {
+                $coupon_code = str_random(8);
+            }else{
+                $coupon_code = $data['coupon_option'];
+            }
 
-    		if ($data['coupon_option']=="Automatic") {
-    			$coupon_code = str_random(8);
-    		}else{
-    			$coupon_code = $data['coupon_option'];
-    		}
+            if (isset($data['categories'])) {
+                $categories =implode(',', $data['categories']);
+            }
 
     		$coupon->coupon_option = $data['coupon_option'];
     		$coupon->coupon_code = $coupon_code;
@@ -108,6 +115,35 @@ class CouponsController extends Controller
     		$coupon->expiry_date = $data['expiry_date'];
     		$coupon->status = 1;
     		$coupon->save();
+
+             // $category= array();
+
+            // foreach ($data['categories'] as $catID) {
+            //     $category[] = Category::where('id', $catID)->select('category_name')->get()->toArray();
+            // }
+            // dd($category);
+
+            foreach ($data['users'] as $user) {
+                 $email = $user;
+                $messageData = [
+                    'email' => $email,
+                    // 'category' => $category,
+                    'coupon_type' => $data['coupon_type'],
+                    'coupon_code' => $coupon_code,
+                    'amount' => $data['amount'],
+                    'amount_type' => $data['amount_type'],
+                    'expiry_date' => $data['expiry_date']
+                ];
+
+                // Mail::send('emails.coupon_user_email', $messageData, function($message) use($email){
+                //     $message->to($email)->subject('Coupon code For You');
+                // });
+
+                //notification
+                $when = Carbon::now()->addSeconds(10);
+                //Notification::send($user, (new CouponSendUser($messageData))->delay($delay));
+                Notification::route('mail', $email)->notify((new CouponSendUser($messageData))->delay($when));
+            }
 
     		Session::flash('success',$message);
     		return redirect('admin/coupons');
