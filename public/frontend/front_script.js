@@ -414,4 +414,21 @@ $(document).ready(function(){
 		});	
 
 
+	//Calculate Shipping Charges and Update Grand total
+	$("input[name=address_id]").bind('change', function(){
+		var shippingCharge = $(this).attr("shipping_charges");
+		var total_price = $(this).attr("total_price");
+		var coupon_amount = $(this).attr("coupon_amount");
+		
+		if (coupon_amount=="") {
+			coupon_amount = 0;	
+		}
+
+		$(".shipping_charges").html("TK."+shippingCharge);
+		var grand_total = parseInt(total_price) + parseInt(shippingCharge) - parseInt(coupon_amount);
+		
+		$(".grand_total").html("TK."+grand_total);
+	});
+
+
 });

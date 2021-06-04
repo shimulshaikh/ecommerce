@@ -22,4 +22,6 @@
 <?php 
 	Session::forget('order_id');
 	Session::forget('grand_total');
+	Session::forget('coupon_code');
+    Session::forget('couponAmount');
 ?>

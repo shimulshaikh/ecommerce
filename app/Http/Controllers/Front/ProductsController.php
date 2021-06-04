@@ -22,6 +22,7 @@ use Session;
 use Auth;
 use DB;
 use Mail;
+use App\ShippingCharge;
 
 class ProductsController extends Controller
 {
@@ -299,6 +300,8 @@ class ProductsController extends Controller
                if ($couponCount == 0) {
                     $userCartItems = Cart::userCartItems();
                     $totalCartItems = totalCartItems();
+                    Session::forget('coupon_code');
+                    Session::forget('couponAmount');
 
                    return response()->json([
                         'status'=>false,
@@ -427,6 +430,30 @@ class ProductsController extends Controller
 
     public function checkout(Request $request)
     {
+
+        $userCartItems = Cart::userCartItems();
+
+        if (count($userCartItems)==0) {
+            // $message = 'Shopping cart is empty! Please add products to checkout.';
+            // Session::get('error', $message);
+            Session::flash('error', 'Shopping cart is empty! Please add products to checkout.');
+            return redirect('cart');
+        }
+
+        $deliveryAddresse = DeliveryAddress::deliveryAddresses();
+        
+        foreach ($deliveryAddresse as $key => $value) {
+            $shippingCharges = ShippingCharge::getShippingCharges($value['country']);
+            $deliveryAddresse[$key]['shippingCharges'] = $shippingCharges;
+        }
+        // dd($deliveryAddresse);
+        $total_price=0;
+        foreach($userCartItems as $item)
+        {
+            $attrPrice=Product::getDiscountAttriPrice($item['product_id'],$item['size']);
+            $total_price=$total_price+ ($attrPrice['discount_price']*$item['quantity']);
+        }
+
         if ($request->isMethod('post')) {
             $data = $request->all();
             
@@ -452,6 +479,13 @@ class ProductsController extends Controller
             //Get delivary address from address_id
             $deliveryAddresse = DeliveryAddress::where('id',$data['address_id'])->first()->toArray();
 
+            //get shipping charges
+            $shipping_charges = ShippingCharge::getShippingCharges($deliveryAddresse['country']);
+
+            //calculate grand total
+            $grand_total = $total_price + $shipping_charges - Session::get('couponAmount');
+            Session::put('grand_total', $grand_total);
+
             DB::beginTransaction();
 
             
@@ -466,7 +500,7 @@ class ProductsController extends Controller
             $order->pincode = $deliveryAddresse['pincode'];
             $order->mobile = $deliveryAddresse['mobile'];
             $order->email = Auth::user()->email;
-            $order->shipping_charges = 0;
+            $order->shipping_charges = $shipping_charges;
             if (!empty(Session::get('couponCode'))) {
                 $order->coupon_code = Session::get('couponCode');
             }else{
@@ -543,18 +577,8 @@ class ProductsController extends Controller
 
              echo "Order Placed"; die;
         }
-
-        $userCartItems = Cart::userCartItems();
-
-        if (count($userCartItems)==0) {
-            // $message = 'Shopping cart is empty! Please add products to checkout.';
-            // Session::get('error', $message);
-            Session::flash('error', 'Shopping cart is empty! Please add products to checkout.');
-            return redirect('cart');
-        }
-
-        $deliveryAddresse = DeliveryAddress::deliveryAddresses();
-        return view('front.products.checkout')->with(compact('userCartItems','deliveryAddresse'));
+    
+        return view('front.products.checkout')->with(compact('userCartItems','deliveryAddresse','total_price'));
     }
 
     public function thanks()
